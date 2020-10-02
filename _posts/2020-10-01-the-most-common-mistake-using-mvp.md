@@ -12,27 +12,7 @@ Some approaches uses MVP just a internal part of the overall architecture, most 
 
 ![MVP Overview](https://upload.wikimedia.org/wikipedia/commons/d/dc/Model_View_Presenter_GUI_Design_Pattern.png)
 
-Let's check the overall idea deeper. Let's separate the two main actors in MVP, we have to create a View context that will contain the presenter's public interface. On the other hand, we also have the Presenter that should contain a view's public interface. The presenter must only use the view's reference in order to communicate updates, avoiding coupling the View with the Presenter. Let's see:
-
-{% mermaid %}
-classDiagram
-    class PresenterInterface
-    <<interface>> PresenterInterface
-
-    class ViewInterface
-    <<interface>> ViewInterface
-    
-    class Presenter
-    Presenter : +ViewInterface view
-    
-    class View
-    View : +PresenterInterface presenter
-
-    View --o PresenterInterface : contains
-    Presenter --> ViewInterface : notifies via
-    View ..|> ViewInterface
-    Presenter ..|> PresenterInterface
-{% endmermaid %}
+Let's check the overall idea deeper. Let's separate the two main actors in MVP, we have to create a View context that will contain the presenter's public interface. On the other hand, we also have the Presenter that should contain a view's public interface. The presenter must only use the view's reference in order to communicate updates, avoiding coupling the View with the Presenter.
 
 It important to keep separate the concerns of each artifact, it means that the view must only contain view-related logic, the presenter must not contain any view-related logic, and models are the typing definition of the data required in order to construct the UI. 
 
