@@ -8,7 +8,7 @@ title:  "The most common mistake using MVP"
 
 If you have developed a mobile application, maybe you have been heard about MVP. It is an architecture pattern that separates the business-responsibility from the view, adding a new artifact called the presenter. In synthesis, the approach is pretty easy to follow. It defines three artifacts: ***the view***, ***the presenter***, and ***the model***. All those work together to enforce the single responsibility (SR) and separation of concerns (SoC) principles. *A priori* it seems to be easy to follow, and detonates that at least the view will contain all view-related logic, the model will carry all the data needed to build the view and the presenter will orchestrate everything following some business-related logic. In the notebook, it sounds perfect!
 
-Some approaches uses MVP just a internal part of the overall architecture, most commonly used on the presentation layer, using the presenter as a bridge between the other parts of more complex architectures. Making this patter very flexible and powerful. Let's check the class diagram that MVP defines: 
+Some approaches uses MVP just as internal part of the overall architecture, most commonly used on the presentation layer, using the presenter as a bridge between the other parts of more complex architectures. Making this patter very flexible and powerful. Let's check what MVP defines: 
 
 ![MVP Overview](https://upload.wikimedia.org/wikipedia/commons/d/dc/Model_View_Presenter_GUI_Design_Pattern.png)
 
