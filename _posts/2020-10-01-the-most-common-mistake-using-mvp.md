@@ -78,7 +78,7 @@ protocol ConcretePresenterProtocol: PresenterProtocol {
     var view: ConcreteViewProtocol?
     func fetchWelcomeState()
 }
-final class ConcreteView: ConcreteViewProtocol { 
+final class ConcretePresenter: ConcretePresenterProtocol { 
     var view: ConcreteViewProtocol?
     func fetchWelcomeState() {
         // fetch your data as needed, when ready:
