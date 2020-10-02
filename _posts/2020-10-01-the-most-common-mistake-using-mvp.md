@@ -23,7 +23,7 @@ Let's check the overall idea deeper. Let's separate the two main actors in MVP, 
 MVP when you are using UIKit framework:
 [MVP iOS UIKit](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTerIF1YyBCKFuMAiCJZ8YYn9VJy8aFwYiJTQ&usqp=CAU)
 
-It important to keep separate the concerns of each artifact, it means that the view must only contain view-related logic, the presenter must not contain any view-related logic, and models are the typing definition of the data required in order to construct the UI. 
+It's important to keep separate the concerns of each artifact, it means that the view must only contain view-related logic, the presenter must not contain any view-related logic, and models are the typing definition of the data required in order to construct the UI. 
 
 When you move your UI to a modular approach keeping well separated the responsibilities between the artifacts, you can switch the artifacts as required with the minimum overall intrusion. Let's say that you have an iOS application that uses UIKit for the Views, but you recently learned about SwiftUI and you want to update your app to this brand-new UI framework. Following the correct MVP's approach, this is very easy, because you View artifact is the only one that knows view-related logic. It is just replace it with your new and pretty SwiftUI logic. In order to put it in the app like a lego block, just implements the public interface defined for the View as ViewInterface. Remember that there is where the concrete public definitions for the view are.
 
