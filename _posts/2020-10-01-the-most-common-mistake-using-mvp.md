@@ -3,6 +3,7 @@ layout: post
 title:  "The most common mistake using MVP"
 tag: software-architecture notes
 category: software development
+author: Mateo Olaya
 excerpt_separator: <!--more-->
 ---
 
