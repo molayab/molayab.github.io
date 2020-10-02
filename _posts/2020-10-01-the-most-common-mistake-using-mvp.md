@@ -6,7 +6,7 @@ title:  "The most common mistake using MVP"
 
 # The most common mistake using MVP 
 
-If you have developed a mobile application, maybe you have been heard about MVP. It is an architecture pattern that separates the business-responsibility from the view, adding a new artifact called the presenter. In synthesis, the approach is pretty easy to follow. It defines three artifacts: ***the view***, ***the presenter***, and ***the model***. All those work together to enforce the single responsibility (SR) and separation of concerns (SoC) principles. *A priori* it seems to be easy to follow, and detonates that at least the view will contain all view-related logic, the model will carry all the data needed to build the view and the presenter will orchestrate everything following some business-related logic. In the notebook, it sounds perfect!
+If you have developed a mobile application, maybe you have been heard about MVP. It is an [architecture pattern](https://en.wikipedia.org/wiki/Architectural_pattern) that separates the business-responsibility from the view, adding a new artifact called the presenter. In synthesis, the approach is pretty easy to follow. It defines three artifacts: ***the view***, ***the presenter***, and ***the model***. All those work together to enforce the single responsibility (SR) and separation of concerns (SoC) principles. *A priori* it seems to be easy to follow, and detonates that at least the view will contain all view-related logic, the model will carry all the data needed to build the view and the presenter will orchestrate everything following some business-related logic. In the notebook, it sounds perfect!
 
 Some approaches uses MVP just as internal part of the overall architecture, most commonly used on the presentation layer, using the presenter as a bridge between the other parts of more complex architectures. Making this patter very flexible and powerful. Let's check what MVP defines: 
 
@@ -113,3 +113,11 @@ MVP is a great tool to use, but keep in mind the basic principles in order to av
 Use always the view's reference using descriptive behaviors (methods). It will keep your code modular, testable, and easy to read.
 
 Use MVP as required, we don't have to redo the implementation, check the diagram definitions in order to avoid breaking the architectural definition.
+
+### References
+
+ - [Wikipedia: Model–view–presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)
+ - [Model View Presenter(MVP) in Android with a simple demo project.](https://medium.com/cr8resume/make-you-hand-dirty-with-mvp-model-view-presenter-eab5b5c16e42)
+ - [GUI Architectures](https://martinfowler.com/eaaDev/uiArchs.html)
+ - [Design Patterns: Model View Presenter | Microsoft Docs](https://docs.microsoft.com/en-us/archive/msdn-magazine/2006/august/design-patterns-model-view-presenter)
+ - [Implement a Model-View-Presenter Architecture in Swift 5](https://medium.com/better-programming/implement-a-model-view-presenter-architecture-in-swift-5-dfa21bbb8e0b)
