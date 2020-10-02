@@ -1,8 +1,14 @@
 ---
 layout: post
 title:  "The most common mistake using MVP"
+tag: software-architecture notes
+category: software development
+excerpt_separator: <!--more-->
 ---
 
+MVP is a powerful architectural pattern to define UIs, it works on the major of the modern developments, it allows the use of more complex architectural approaches defining a bridge between the view and the business. This extra layer allows us to keep decouple the view logic from a view's coordinator called presenter.
+
+<!--more-->
 
 # The most common mistake using MVP 
 
@@ -12,9 +18,9 @@ Some approaches uses MVP just as internal part of the overall architecture, most
 
 ![MVP Overview](https://upload.wikimedia.org/wikipedia/commons/d/dc/Model_View_Presenter_GUI_Design_Pattern.png)
 
-**Model**: *Business-related logic (follwing clean approach UseCases)*
-**Presenter**: *View's coordinator *
-**View**: *View-related code (in iOS normally UIKit or SwiftUI)*
+ - **Model**: Business-related logic (following a CLEAN approach, UseCases)
+ - **Presenter**: View's coordinator
+ - **View**: View-related code (in iOS normally UIKit or SwiftUI)
 
 ![MVP iOS](https://miro.medium.com/max/2800/1*j95UZOgvPFdWVqDCbn8o2A.png)
 
@@ -119,5 +125,5 @@ Use MVP as required, we don't have to redo the implementation, check the diagram
  - [Wikipedia: Model–view–presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)
  - [Model View Presenter(MVP) in Android with a simple demo project.](https://medium.com/cr8resume/make-you-hand-dirty-with-mvp-model-view-presenter-eab5b5c16e42)
  - [GUI Architectures](https://martinfowler.com/eaaDev/uiArchs.html)
- - [Design Patterns: Model View Presenter | Microsoft Docs](https://docs.microsoft.com/en-us/archive/msdn-magazine/2006/august/design-patterns-model-view-presenter)
+ - [Design Patterns: Model View Presenter - Microsoft Docs](https://docs.microsoft.com/en-us/archive/msdn-magazine/2006/august/design-patterns-model-view-presenter)
  - [Implement a Model-View-Presenter Architecture in Swift 5](https://medium.com/better-programming/implement-a-model-view-presenter-architecture-in-swift-5-dfa21bbb8e0b)

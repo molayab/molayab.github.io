@@ -32,7 +32,7 @@ twitter_username: molayab_
 github_username:  molayab
 
 # Build settings
-theme: minima
+theme: alembic-jekyll-theme
 plugins:
   - jekyll-feed
   - jekyll-diagrams
