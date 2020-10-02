@@ -1,20 +1,16 @@
 ---
 layout: page
-title: Teo's Thoughts | Blog
+title: The Blog
 ---
 <h1>Latest Posts</h1>
 
 <div>
   {% for post in site.posts %}
   <article>
-    <header>
-      <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
-    </header>
-    
+    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
     <p>{{ post.excerpt }}</p>
     <footer>
       <b>Posted on</b> <time datetime="{{post.date | date:"%Y-%m-%d"}}" pubdate>{{post.date | date:"%Y-%m-%d"}}</time>
-      <b>Posted by</b> {{ post.author }}
       <br><b>Categories:</b> 
         {% for category in post.categories %}
         {{ category }} 

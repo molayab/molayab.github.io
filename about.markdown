@@ -1,18 +1,11 @@
 ---
 layout: page
-title: About
+title: About Me
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Mateo is an integral person who has been working on different environments including iOS development and backend development with frameworks like Ruby On Rails and C/C++. He loves the Linux OS and he started with Objective-C. He knows Swift, Objective-C, C/C++ and Ruby. Also, Mateo has experience with the agile methodologies like Scrum. He worked as a lead developer of the StrataLogica Project at Integro (Medellin) in 2017. He loves the command line and knows Git via it.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Mateo is a systems engineering and a musician enthusiast. He absolutely loves computer sciences and software development. ¡Me apasionan las buenas prácticas!
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+Feel free to check my LinkedIn profile [here](https://www.linkedin.com/in/molayab/).
