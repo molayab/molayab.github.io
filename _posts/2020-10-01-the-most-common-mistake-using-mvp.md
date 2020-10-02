@@ -12,7 +12,16 @@ Some approaches uses MVP just as internal part of the overall architecture, most
 
 ![MVP Overview](https://upload.wikimedia.org/wikipedia/commons/d/dc/Model_View_Presenter_GUI_Design_Pattern.png)
 
+**Model**: *Business-related logic (follwing clean approach UseCases)*
+**Presenter**: *View's coordinator *
+**View**: *View-related code (in iOS normally UIKit or SwiftUI)*
+
+![MVP iOS](https://miro.medium.com/max/2800/1*j95UZOgvPFdWVqDCbn8o2A.png)
+
 Let's check the overall idea deeper. Let's separate the two main actors in MVP, we have to create a View context that will contain the presenter's public interface. On the other hand, we also have the Presenter that should contain a view's public interface. The presenter must only use the view's reference in order to communicate updates, avoiding coupling the View with the Presenter.
+
+MVP when you are using UIKit framework:
+[MVP iOS UIKit](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTerIF1YyBCKFuMAiCJZ8YYn9VJy8aFwYiJTQ&usqp=CAU)
 
 It important to keep separate the concerns of each artifact, it means that the view must only contain view-related logic, the presenter must not contain any view-related logic, and models are the typing definition of the data required in order to construct the UI. 
 
@@ -46,7 +55,7 @@ final class ConcreteView: ConcreteViewProtocol {
 }
 ```
 
-The previous code is violating the MVP due to a return type in the presenter's public interface. In this case, the view's responsibility is to get the data from the presenter using a synced approach that couples contextual logic, it should know at some point all the possible ways that the presenter can work, generating confusion, and most developers will move all view-related logic to the presenter, asking to it for everything that needs a draw. It is a wrong approach due to the arrows in the relationships on the MVP definition was changed just to use a `return`, let's see:
+The previous code is violating the MVP due to a return type in the presenter's public interface. In this case, the view's responsibility is to get the data from the presenter using a synced approach that couples contextual logic, it should know at some point all the possible ways that the presenter can work, generating confusion, and most developers will move all view-related logic to the presenter, asking to it for everything that the views needs to draw. It is a wrong approach due to the arrows in the MVP's definition was changed just for use a `return`, let's see:
 
 ```
 MVP DEFINES 
@@ -61,7 +70,7 @@ Coupling
 ```
 
 ### How can we solve this? 
-Well, the fix is pretty simple, just remember to always use the view's public interface reference inside the presenter. That is the key to keep everything decoupled. Remember that the Presenter exposes behaviors overview actions. It means that is preferred have a method in the presenter's interface that acts over an action, for example `func fetchWelcomeState()` rather than have the `getWelcomeViewModel() -> SomeViewModel`. Let's say for example your welcome view model comes from a service call, it may not be a sync call, and the view doesn't need to know that. The reference in the presenter helps us with that. Let's see the correct way of defining previous code: 
+Well, the fix is pretty simple, just remember to always use the view's public interface reference inside the presenter. That is the key to keep everything decoupled. Remember that the Presenter exposes behaviors. It means that is preferred have a method in the presenter's interface that acts over an action, for example `func fetchWelcomeState()` rather than have the `getWelcomeViewModel() -> SomeViewModel`. Let's say for example, your welcome view model comes from a service call, it may not be a synced call, and the view doesn't need to know that. The reference in the presenter helps us with that. Let's see the correct way of defining previous code: 
 
 ```swift
 // Remember that protocol == interface in Swift.
