@@ -86,7 +86,7 @@ You just need to define the relative path to the jpg in order to render it as an
 ```
 ![Image Alt](/images/photo.jpg)
 ```
-GitHub will resolve the URL in order to get the RAW content, this is a very useful feature in GitHub. It allows adding graphical resources to your repositories, very useful for documentation. 
+GitHub will resolve the URL in order to get the RAW content, this is a very useful feature in GitHub!.
 
 You can define a pre-hook script in order to "compile" the mermaid code into images before sending the changes to the remote. You can check a very simple approach in [this](https://github.com/molayab/dart-media-library-server/blob/master/docs/regenerate-diagrams.sh) project, it uses a bash script to regenerate the diagrams.
 
