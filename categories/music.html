@@ -1,0 +1,13 @@
+---
+layout: page
+permalink: /categories/music
+title: Categories | Music
+---
+
+<div class="alert alert-dark" role="alert">
+    Music
+</div>
+
+{% for post in site.categories.music %}
+{%- include category-item.html -%}
+{% endfor %}

@@ -1,0 +1,13 @@
+---
+layout: page
+permalink: /categories/software-development
+title: Categories | Software Development
+---
+
+<div class="alert alert-dark" role="alert">
+    Software Development
+</div>
+
+{% for post in site.categories.software-development %}
+{%- include category-item.html -%}
+{% endfor %}

@@ -1,16 +1,4 @@
----
-layout: page
-title: The Blog
----
-<h1 class="display-3">Latest Articles</h1>
-<blockquote class="blockquote">
-  <p class="mb-0">God is in the details.</p>
-  <footer class="blockquote-footer">German-born architect <cite title="Source Title">Ludwig Mies van der Rohe (1886–1969)</cite></footer>
-</blockquote>
-
-<div>
-  {% for post in site.posts %}
-  <article>
+<article>
     <div class="card">
       {% if post.cover_image %}
       <img src="{{ post.cover_image }}" style="max-height: 200px; object-fit: cover;" class="card-img-top" alt="Image Cover">
@@ -30,6 +18,4 @@ title: The Blog
       </div>
     </div>
     <br>
-  </article>
-  {% endfor %}
-</div>
+</article>

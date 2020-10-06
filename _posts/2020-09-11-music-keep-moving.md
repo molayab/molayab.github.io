@@ -1,13 +1,13 @@
 ---
 layout: post
 title:  "Music & Mixing - Keep Moving"
-tag: music house
+tags: music house
 category: music
 author: Mateo Olaya
 excerpt_separator: <!--more-->
 ---
 
-Listen to house music! Remember to stay healthy and wash your hands often!
+Listen to house music! Remember to stay healthy and wash your hands often! <br>
 **Genres:** deep-house, progressive, deep and house
 
 <!--more-->

@@ -2,7 +2,7 @@
 layout: post
 title:  "Using Mermaid diagrams in your Git repository documentation."
 tags: git documentation notes
-category: software development
+category: software-development
 author: Mateo Olaya
 excerpt_separator: <!--more-->
 ---
