@@ -1,0 +1,393 @@
+<title>Mateo Olaya Bernal</title>
+<meta name="description" content="Indie macOS developer. Native tools for developers.">
+<meta property="og:title" content="Mateo Olaya Bernal — macOS Developer">
+<meta property="og:description" content="Indie macOS developer. I build native tools for people who work in terminals.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Cloudflare Web Analytics: replace YOUR_TOKEN at cloudflare.com → Analytics → Web Analytics → Add site -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"YOUR_TOKEN"}'></script>
+
+<style>
+/* ── Tokens (shared with Grove site) ───────────────────────── */
+:root {
+  --font:        system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --mono:        ui-monospace, 'SF Mono', Menlo, monospace;
+  --radius:      20px;
+  --radius-sm:   12px;
+  --radius-pill: 980px;
+
+  /* Light (default) */
+  --bg:       #F5F5F7;
+  --surface:  #FFFFFF;
+  --border:   rgba(0, 0, 0, 0.08);
+  --accent:   #1A7A4A;
+  --glow:     #52B788;
+  --text:     #1D1D1F;
+  --text-2:   #6E6E73;
+  --text-3:   #AEAEB2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:       #000000;
+    --surface:  #1C1C1E;
+    --border:   rgba(255, 255, 255, 0.09);
+    --accent:   #52B788;
+    --glow:     #52B788;
+    --text:     #F5F5F7;
+    --text-2:   #86868B;
+    --text-3:   #48484A;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:       #000000;
+  --surface:  #1C1C1E;
+  --border:   rgba(255, 255, 255, 0.09);
+  --accent:   #52B788;
+  --glow:     #52B788;
+  --text:     #F5F5F7;
+  --text-2:   #86868B;
+  --text-3:   #48484A;
+}
+:root[data-theme="light"] {
+  --bg:       #F5F5F7;
+  --surface:  #FFFFFF;
+  --border:   rgba(0, 0, 0, 0.08);
+  --accent:   #1A7A4A;
+  --glow:     #52B788;
+  --text:     #1D1D1F;
+  --text-2:   #6E6E73;
+  --text-3:   #AEAEB2;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Theme toggle ───────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-2);
+  transition: color 0.15s, background 0.2s;
+  z-index: 10;
+}
+.theme-toggle:hover { color: var(--text); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.hero {
+  padding: 96px 0 80px;
+}
+
+.hero-name {
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 0.625rem;
+  text-wrap: balance;
+}
+
+.hero-role {
+  font-size: 0.9375rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.005em;
+}
+
+.hero-bio {
+  font-size: 1.125rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 480px;
+  text-wrap: pretty;
+}
+
+/* ── Divider ────────────────────────────────────────────────── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 72px 0;
+}
+
+/* ── Section eyebrow ────────────────────────────────────────── */
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* ── Project card ───────────────────────────────────────────── */
+.project-card {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 0 22px;
+  align-items: start;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  margin-bottom: 12px;
+}
+.project-card:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--glow);
+}
+@media (prefers-color-scheme: dark) {
+  .project-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+}
+:root[data-theme="dark"] .project-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+.project-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.project-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 17px;
+  flex-shrink: 0;
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 2px;
+  min-width: 0;
+}
+
+.project-category {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.project-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.project-desc {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: 4px;
+}
+.project-link svg {
+  transition: transform 0.15s ease;
+}
+.project-card:hover .project-link svg { transform: translateX(3px); }
+
+/* ── Placeholder ────────────────────────────────────────────── */
+.project-placeholder {
+  padding: 20px 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-3);
+  font-size: 0.875rem;
+  font-family: var(--mono);
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.footer {
+  padding: 40px 0 80px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--text-2);
+  transition: color 0.15s;
+}
+.footer-link:hover { color: var(--text); }
+.footer-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+.footer-sep { color: var(--border); font-size: 0.75rem; }
+
+.footer-year {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  color: var(--text-3);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .hero { padding: 64px 0 56px; }
+  .project-card { grid-template-columns: 60px 1fr; gap: 0 16px; padding: 18px; }
+  .project-icon { width: 60px; height: 60px; border-radius: 13px; }
+  .footer-year { display: none; }
+}
+</style>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+  <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<main class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-name">Mateo Olaya Bernal</h1>
+    <p class="hero-role">Indie macOS Developer</p>
+    <p class="hero-bio">
+      I make native macOS tools for developers — fast, focused apps built in Swift that feel at home on your Mac.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Apps -->
+  <section aria-label="Apps">
+    <p class="eyebrow">Apps</p>
+
+    <a class="project-card" href="https://grove.molayab.com" aria-label="Grove — git workspace manager for macOS">
+      <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Grove app icon">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#52B788"/>
+            <stop offset="100%" stop-color="#1B4332"/>
+          </linearGradient>
+          <linearGradient id="gl" x1="0" y1="0" x2="0" y2="480" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.13"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+          <clipPath id="sq"><rect width="1024" height="1024" rx="225" ry="225"/></clipPath>
+        </defs>
+        <rect width="1024" height="1024" rx="225" ry="225" fill="url(#g)"/>
+        <rect width="1024" height="480" fill="url(#gl)" clip-path="url(#sq)"/>
+        <line x1="512" y1="530" x2="512" y2="745" stroke="white" stroke-width="82" stroke-linecap="round"/>
+        <line x1="512" y1="530" x2="317" y2="310" stroke="white" stroke-width="82" stroke-linecap="round"/>
+        <line x1="512" y1="530" x2="707" y2="310" stroke="white" stroke-width="82" stroke-linecap="round"/>
+        <circle cx="317" cy="295" r="64" fill="white"/>
+        <circle cx="707" cy="295" r="64" fill="white"/>
+        <circle cx="512" cy="755" r="64" fill="white"/>
+        <circle cx="512" cy="530" r="50" fill="white" opacity="0.75"/>
+      </svg>
+
+      <div class="project-body">
+        <span class="project-category">macOS · Git · Developer Tool</span>
+        <span class="project-name">Grove</span>
+        <p class="project-desc">A native workspace manager for developers using AI coding agents. Agent, shell, file tree, and diff — all following the same git checkout.</p>
+        <span class="project-link">
+          grove.molayab.com
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <div class="project-placeholder" aria-label="More apps coming">// more coming soon</div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Contact -->
+  <footer class="footer" aria-label="Contact">
+    <a class="footer-link" href="https://github.com/molayab" aria-label="GitHub">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+      </svg>
+      GitHub
+    </a>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <a class="footer-link" href="mailto:molayab@icloud.com" aria-label="Email">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      molayab@icloud.com
+    </a>
+    <span class="footer-year" aria-hidden="true">© 2026</span>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  var sun  = document.getElementById('iconSun');
+  var moon = document.getElementById('iconMoon');
+  var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var saved = localStorage.getItem('molayab-theme');
+  if (saved) dark = saved === 'dark';
+  apply(dark);
+
+  btn.addEventListener('click', function () {
+    dark = !dark;
+    apply(dark);
+    localStorage.setItem('molayab-theme', dark ? 'dark' : 'light');
+  });
+
+  function apply(d) {
+    root.setAttribute('data-theme', d ? 'dark' : 'light');
+    sun.style.display  = d ? 'block' : 'none';
+    moon.style.display = d ? 'none'  : 'block';
+    btn.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+})();
+</script>
