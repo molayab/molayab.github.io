@@ -157,6 +157,37 @@ a { color: inherit; text-decoration: none; }
   padding: 96px 0 80px;
 }
 
+.hero-avatar-wrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 28px;
+}
+
+.hero-avatar-fallback {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #52B788 0%, #1B4332 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.hero-avatar {
+  position: absolute;
+  inset: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  display: block;
+}
+
 .hero-name {
   font-size: clamp(2.25rem, 6vw, 3.5rem);
   font-weight: 700;
@@ -417,6 +448,10 @@ a { color: inherit; text-decoration: none; }
 
   <!-- Hero -->
   <section class="hero">
+    <div class="hero-avatar-wrap">
+      <div class="hero-avatar-fallback" aria-hidden="true">M</div>
+      <img class="hero-avatar" src="https://github.com/molayab.png?size=168" alt="Mateo Olaya Bernal" width="84" height="84" loading="eager" onerror="this.style.display='none'">
+    </div>
     <h1 class="hero-name">Mateo Olaya Bernal</h1>
     <p class="hero-role">Software Engineer</p>
     <p class="hero-bio">Native apps, backend systems, and developer tools.</p>
