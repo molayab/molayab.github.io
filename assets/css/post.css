@@ -1,4 +1,8 @@
 /* ── Post chrome ────────────────────────────────────────────── */
+.post {
+  padding-top: 96px;
+}
+
 .post-back {
   display: inline-flex;
   align-items: center;
@@ -284,6 +288,7 @@
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 480px) {
+  .post { padding-top: 64px; }
   .post-body .highlighter-rouge .highlight,
   .post-body pre.highlight { padding: 16px; }
   .post-card { padding: 18px; }

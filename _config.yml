@@ -30,3 +30,4 @@ exclude:
   - vendor
   - README.md
   - CLAUDE.md
+  - AGENTS.md
