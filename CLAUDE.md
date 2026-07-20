@@ -8,6 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `index.html` — the whole page: markup, `<style>`, and `<script>` inline in one file.
 - `CNAME` — GitHub Pages custom domain config (`molayab.com`). Do not remove; deleting it drops the custom domain and reverts the site to the default `*.github.io` URL.
+- `favicon.svg` / `favicon-32.png` / `apple-touch-icon.png` / `icon-512.png` — the site's "M" monogram mark (green gradient, matches the Grove app icon) at various sizes. Regenerate all sizes together if the mark changes, via a headless-browser screenshot of `favicon.svg` — see git history for the render script.
+- `og-image.png` — 1200×630 social-share preview (name, title, tag pills, brand gradient), referenced by the `og:image`/`twitter:image` meta tags. Regenerate the same way if the hero title or tagline changes, so the shared-link preview stays in sync.
+- `robots.txt` / `sitemap.xml` — basic crawler config pointing at the single page.
 
 ## Development workflow
 
@@ -22,4 +25,6 @@ There is no build/lint/test tooling — edit `index.html` directly and open it i
 - **Projects section**: open-source/GitHub repos are `.repo-card` links inside `.repo-grid` (auto-fill grid, collapses to 1 column under 480px) — name, short description, and a `.repo-meta` row (star count + language). Lighter-weight than `.project-card`, meant for pinned/starred GitHub repos rather than shipped apps. When repo star counts or descriptions change on GitHub, update the hardcoded values here to match.
 - **Analytics**: Cloudflare Web Analytics beacon script in `<head>` — keep the `data-cf-beacon` token if editing that block.
 - **Charset**: `<meta charset="utf-8">` must stay the first tag in `<head>` — the page uses em dashes and middots throughout, and without an explicit charset (and depending on the server's `Content-Type` header), some browsers mis-render them.
+- **SEO/social metadata**: `<title>`/`meta[name=description]` are deliberately more keyword-rich than the agnostic on-page hero (they're separate surfaces — search results and browser tabs vs. the page itself). Keep `og:*`, `twitter:*`, the JSON-LD `Person` block, and `og-image.png` in sync whenever the title, tagline, or social handles change — they're duplicated across those places on purpose (static file, no templating).
+- **Theme-color sync**: the `#themeColorMeta` tag is updated by the same toggle script that flips `data-theme`, so the mobile browser chrome color tracks the manual theme choice, not just OS preference. Keep both in the `apply()` function if you touch the toggle logic.
 - No external CSS/JS dependencies or CDN libraries are used; keep new additions inline and dependency-free unless there's a strong reason otherwise.
