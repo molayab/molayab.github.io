@@ -1,7 +1,8 @@
-<title>Mateo Olaya Bernal</title>
-<meta name="description" content="Indie macOS developer. Native tools for developers.">
-<meta property="og:title" content="Mateo Olaya Bernal — macOS Developer">
-<meta property="og:description" content="Indie macOS developer. I build native tools for people who work in terminals.">
+<meta charset="utf-8">
+<title>Mateo Olaya Bernal — Software Engineer</title>
+<meta name="description" content="Software engineer building native apps, backend systems, and developer tools.">
+<meta property="og:title" content="Mateo Olaya Bernal — Software Engineer">
+<meta property="og:description" content="Software engineer building native apps, backend systems, and developer tools.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba7b9836966d428bbebf86d854ae51eb"}'></script><!-- End Cloudflare Web Analytics -->
 
@@ -147,6 +148,18 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.01em;
 }
 
+/* ── About ──────────────────────────────────────────────────── */
+.about-text {
+  font-size: 1.0625rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  max-width: 560px;
+  text-wrap: pretty;
+}
+.about-text + .about-text {
+  margin-top: 1em;
+}
+
 /* ── Project card ───────────────────────────────────────────── */
 .project-card {
   display: grid;
@@ -233,6 +246,61 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--mono);
 }
 
+/* ── Repo grid (open-source projects) ──────────────────────── */
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.repo-card:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--glow);
+}
+@media (prefers-color-scheme: dark) {
+  .repo-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+}
+:root[data-theme="dark"] .repo-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+.repo-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.repo-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.repo-desc {
+  font-size: 0.8438rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  flex: 1;
+  text-wrap: pretty;
+}
+
+.repo-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  font-family: var(--mono);
+}
+.repo-meta svg { flex-shrink: 0; }
+.repo-meta .repo-sep { color: var(--border); }
+
 /* ── Footer ─────────────────────────────────────────────────── */
 .footer {
   padding: 40px 0 80px;
@@ -264,8 +332,10 @@ a { color: inherit; text-decoration: none; }
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .hero { padding: 64px 0 56px; }
+  .rule { margin: 56px 0; }
   .project-card { grid-template-columns: 60px 1fr; gap: 0 16px; padding: 18px; }
   .project-icon { width: 60px; height: 60px; border-radius: 13px; }
+  .repo-grid { grid-template-columns: 1fr; }
   .footer-year { display: none; }
 }
 </style>
@@ -288,10 +358,17 @@ a { color: inherit; text-decoration: none; }
   <!-- Hero -->
   <section class="hero">
     <h1 class="hero-name">Mateo Olaya Bernal</h1>
-    <p class="hero-role">Indie macOS Developer</p>
-    <p class="hero-bio">
-      I make native macOS tools for developers — fast, focused apps built in Swift that feel at home on your Mac.
-    </p>
+    <p class="hero-role">Software Engineer</p>
+    <p class="hero-bio">Native apps, backend systems, and developer tools.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- About -->
+  <section aria-label="About">
+    <p class="eyebrow">About</p>
+    <p class="about-text">I work across the stack — native Swift apps for macOS and iOS, backend services in Vapor, and the occasional systems-level detour into C and C++. I like building focused tools: things that do one job well and feel considered in the details.</p>
+    <p class="about-text">Most of what I ship ends up open source or as an indie app — you'll find both below.</p>
   </section>
 
   <hr class="rule">
@@ -343,6 +420,69 @@ a { color: inherit; text-decoration: none; }
 
   <hr class="rule">
 
+  <!-- Projects -->
+  <section aria-label="Open source projects">
+    <p class="eyebrow">Projects</p>
+
+    <div class="repo-grid">
+      <a class="repo-card" href="https://github.com/molayab/ios-musicplayer" aria-label="ios-musicplayer on GitHub">
+        <span class="repo-name">ios-musicplayer</span>
+        <p class="repo-desc">Third-party alternative to the native iOS Music app.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          12<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+
+      <a class="repo-card" href="https://github.com/molayab/swift-cli-manager" aria-label="swift-cli-manager on GitHub">
+        <span class="repo-name">swift-cli-manager</span>
+        <p class="repo-desc">Git-backed manager for CLI and AI agent configurations.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          3<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+
+      <a class="repo-card" href="https://github.com/molayab/swift-front-arch" aria-label="swift-front-arch on GitHub">
+        <span class="repo-name">swift-front-arch</span>
+        <p class="repo-desc">SOLID-based architecture patterns for Apple platform apps.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          3<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+
+      <a class="repo-card" href="https://github.com/molayab/vapor-ecommerce" aria-label="vapor-ecommerce on GitHub">
+        <span class="repo-name">vapor-ecommerce</span>
+        <p class="repo-desc">Headless e-commerce manager built with Vapor and Swift.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          2<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+
+      <a class="repo-card" href="https://github.com/molayab/swift-background-scheduler" aria-label="swift-background-scheduler on GitHub">
+        <span class="repo-name">swift-background-scheduler</span>
+        <p class="repo-desc">Actor-based task scheduler for immediate, delayed, and periodic work.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          1<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+
+      <a class="repo-card" href="https://github.com/molayab/calling-swift-from-c" aria-label="calling-swift-from-c on GitHub">
+        <span class="repo-name">calling-swift-from-c</span>
+        <p class="repo-desc">Calling a Swift-built library from C, with responses passed back.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          1<span class="repo-sep">&nbsp;·&nbsp;</span>Swift
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="rule">
+
   <!-- Contact -->
   <footer class="footer" aria-label="Contact">
     <a class="footer-link" href="https://github.com/molayab" aria-label="GitHub">
@@ -350,6 +490,22 @@ a { color: inherit; text-decoration: none; }
         <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
       </svg>
       GitHub
+    </a>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <a class="footer-link" href="https://x.com/molayab_" aria-label="X (Twitter)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      @molayab_
+    </a>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <a class="footer-link" href="https://instagram.com/molayab" aria-label="Instagram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+      Instagram
     </a>
     <span class="footer-sep" aria-hidden="true">·</span>
     <a class="footer-link" href="mailto:molayab@icloud.com" aria-label="Email">
