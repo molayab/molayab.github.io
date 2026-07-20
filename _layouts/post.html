@@ -1,0 +1,29 @@
+---
+layout: default
+---
+<article class="post">
+  <a class="post-back" href="{{ '/blog/' | relative_url }}">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+    Blog
+  </a>
+
+  <p class="eyebrow">{{ page.date | date: "%B %-d, %Y" }}</p>
+  <h1 class="post-title">{{ page.title }}</h1>
+  {% if page.description %}<p class="post-subtitle">{{ page.description }}</p>{% endif %}
+
+  <div class="post-meta-row">
+    {% assign words = content | strip_html | number_of_words %}
+    <span>{{ words | divided_by: 200 | at_least: 1 }} min read</span>
+    {% if page.tags and page.tags.size > 0 %}
+      <span class="footer-sep" aria-hidden="true">·</span>
+      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="post-body">
+    {{ content }}
+  </div>
+</article>

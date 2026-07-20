@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }} — Blog{% endif %}</title>
+<meta name="description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }} — Blog{% endif %}">
+<meta property="og:description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+<meta property="og:image" content="{{ '/og-image.png' | absolute_url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@molayab_">
+<meta name="twitter:creator" content="@molayab_">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }} — Blog{% endif %}">
+<meta name="twitter:description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+<meta name="twitter:image" content="{{ '/og-image.png' | absolute_url }}">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="{{ '/favicon.svg' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon-32.png' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | relative_url }}">
+<meta name="theme-color" id="themeColorMeta" content="#F5F5F7">
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} — Blog" href="{{ '/feed.xml' | absolute_url }}">
+
+<link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/post.css' | relative_url }}">
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba7b9836966d428bbebf86d854ae51eb"}'></script><!-- End Cloudflare Web Analytics -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LNZDWNT4BV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LNZDWNT4BV');
+</script>
+
+{% if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  {% if page.last_modified_at %}"dateModified": "{{ page.last_modified_at | date_to_xmlschema }}",{% endif %}
+  "author": { "@type": "Person", "name": "{{ site.author }}", "url": "{{ site.url }}/" },
+  "url": "{{ page.url | absolute_url }}"
+}
+</script>
+{% endif %}
+</head>
+<body>
+
+<a class="site-mark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} — Home">M</a>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+  <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<main class="page">
+{{ content }}
+
+{% include footer.html %}
+</main>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  var sun  = document.getElementById('iconSun');
+  var moon = document.getElementById('iconMoon');
+  var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var saved = localStorage.getItem('molayab-theme');
+  if (saved) dark = saved === 'dark';
+  apply(dark);
+
+  btn.addEventListener('click', function () {
+    dark = !dark;
+    apply(dark);
+    localStorage.setItem('molayab-theme', dark ? 'dark' : 'light');
+  });
+
+  function apply(d) {
+    root.setAttribute('data-theme', d ? 'dark' : 'light');
+    sun.style.display  = d ? 'block' : 'none';
+    moon.style.display = d ? 'none'  : 'block';
+    btn.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode');
+    document.getElementById('themeColorMeta').setAttribute('content', d ? '#000000' : '#F5F5F7');
+  }
+})();
+</script>
+</body>
+</html>

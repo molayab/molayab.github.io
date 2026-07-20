@@ -1,0 +1,32 @@
+title: Mateo Olaya Bernal
+description: >-
+  Technical notes, release notes, and articles on Swift, iOS, macOS,
+  and backend engineering.
+url: "https://molayab.com"
+baseurl: ""
+author: Mateo Olaya Bernal
+
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  input: GFM
+
+permalink: /blog/:year/:month/:day/:title/
+
+collections:
+  posts:
+    output: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+feed:
+  path: feed.xml
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - CLAUDE.md
