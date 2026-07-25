@@ -1,3 +1,29 @@
+/* ── Code token colors (tokenized, re-tuned per theme for contrast) ── */
+:root {
+  --code-comment: var(--text-3);
+  --code-keyword: #9B4FBD;
+  --code-string:  #C17A3D;
+  --code-fn:      #2B79B0;
+  --code-error:   #C0392B;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --code-keyword: #B98AE0;
+    --code-string:  #D99A5B;
+    --code-fn:      #5B9BD9;
+  }
+}
+:root[data-theme="dark"] {
+  --code-keyword: #B98AE0;
+  --code-string:  #D99A5B;
+  --code-fn:      #5B9BD9;
+}
+:root[data-theme="light"] {
+  --code-keyword: #9B4FBD;
+  --code-string:  #C17A3D;
+  --code-fn:      #2B79B0;
+}
+
 /* ── Post chrome ────────────────────────────────────────────── */
 .post {
   padding-top: 96px;
@@ -138,7 +164,7 @@
 .post-body :not(pre) > code {
   font-family: var(--mono);
   font-size: 0.875em;
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.15em 0.45em;
@@ -147,7 +173,7 @@
 /* Code blocks (Rouge / kramdown fenced code) */
 .post-body .highlighter-rouge,
 .post-body pre.highlight {
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow-x: auto;
@@ -171,11 +197,11 @@
   padding: 0;
 }
 
-/* Rouge token colors — chosen to hold contrast in both themes */
+/* Rouge token colors — tokenized via --code-* custom properties above */
 .post-body .highlight .c,
 .post-body .highlight .c1,
 .post-body .highlight .cm,
-.post-body .highlight .cp { color: var(--text-3); font-style: italic; }
+.post-body .highlight .cp { color: var(--code-comment); font-style: italic; }
 
 .post-body .highlight .k,
 .post-body .highlight .kc,
@@ -184,7 +210,7 @@
 .post-body .highlight .kp,
 .post-body .highlight .kr,
 .post-body .highlight .kt,
-.post-body .highlight .ow { color: #9B4FBD; }
+.post-body .highlight .ow { color: var(--code-keyword); }
 
 .post-body .highlight .s,
 .post-body .highlight .s1,
@@ -196,19 +222,19 @@
 .post-body .highlight .sh,
 .post-body .highlight .si,
 .post-body .highlight .sx,
-.post-body .highlight .ss { color: #B5651D; }
+.post-body .highlight .ss { color: var(--code-string); }
 
 .post-body .highlight .m,
 .post-body .highlight .mf,
 .post-body .highlight .mh,
 .post-body .highlight .mi,
 .post-body .highlight .mo,
-.post-body .highlight .il { color: #B5651D; }
+.post-body .highlight .il { color: var(--code-string); }
 
 .post-body .highlight .nf,
 .post-body .highlight .nc,
 .post-body .highlight .nn,
-.post-body .highlight .nb { color: #2B6CB0; }
+.post-body .highlight .nb { color: var(--code-fn); }
 
 .post-body .highlight .n,
 .post-body .highlight .na,
@@ -218,7 +244,7 @@
 .post-body .highlight .o,
 .post-body .highlight .p { color: var(--text-2); }
 
-.post-body .highlight .err { color: #C0392B; }
+.post-body .highlight .err { color: var(--code-error); }
 
 /* ── Blog index ─────────────────────────────────────────────── */
 .post-list {
@@ -235,16 +261,17 @@
   border-radius: var(--radius);
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.2s ease;
 }
 .post-card:hover {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(26, 122, 74, 0.14);
   border-color: var(--glow);
 }
 @media (prefers-color-scheme: dark) {
-  .post-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+  .post-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
 }
-:root[data-theme="dark"] .post-card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); }
+:root[data-theme="dark"] .post-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
 .post-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .post-card-date {
