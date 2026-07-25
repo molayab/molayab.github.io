@@ -512,26 +512,11 @@ a { color: inherit; text-decoration: none; }
 
     <a class="project-card" href="https://grove.molayab.com" aria-label="Grove — git workspace manager for macOS">
       <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Grove app icon">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#52B788"/>
-            <stop offset="100%" stop-color="#1B4332"/>
-          </linearGradient>
-          <linearGradient id="gl" x1="0" y1="0" x2="0" y2="480" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#fff" stop-opacity="0.13"/>
-            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-          </linearGradient>
-          <clipPath id="sq"><rect width="1024" height="1024" rx="225" ry="225"/></clipPath>
-        </defs>
-        <rect width="1024" height="1024" rx="225" ry="225" fill="url(#g)"/>
-        <rect width="1024" height="480" fill="url(#gl)" clip-path="url(#sq)"/>
-        <line x1="512" y1="530" x2="512" y2="745" stroke="white" stroke-width="82" stroke-linecap="round"/>
-        <line x1="512" y1="530" x2="317" y2="310" stroke="white" stroke-width="82" stroke-linecap="round"/>
-        <line x1="512" y1="530" x2="707" y2="310" stroke="white" stroke-width="82" stroke-linecap="round"/>
-        <circle cx="317" cy="295" r="64" fill="white"/>
-        <circle cx="707" cy="295" r="64" fill="white"/>
-        <circle cx="512" cy="755" r="64" fill="white"/>
-        <circle cx="512" cy="530" r="50" fill="white" opacity="0.75"/>
+        <rect width="1024" height="1024" rx="225" ry="225" fill="#000000"/>
+        <path d="M512 384 V544 M512 544 L304 688 M512 544 L720 688" fill="none" stroke="#CB2957" stroke-width="80" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="512" cy="272" r="96" fill="#CB2957"/>
+        <circle cx="272" cy="752" r="96" fill="#CB2957"/>
+        <circle cx="752" cy="752" r="96" fill="#CB2957"/>
       </svg>
 
       <div class="project-body">
@@ -558,6 +543,15 @@ a { color: inherit; text-decoration: none; }
     <p class="eyebrow">Projects</p>
 
     <div class="repo-grid">
+      <a class="repo-card" href="https://github.com/molayab/swift-ai-provider-kit" aria-label="swift-ai-provider-kit on GitHub">
+        <span class="repo-name">swift-ai-provider-kit</span>
+        <p class="repo-desc">Provider-agnostic Swift package for Claude, OpenAI, and on-device AI.</p>
+        <span class="repo-meta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          1<span class="repo-sep">&nbsp;·&nbsp;</span><span class="lang-dot" style="--lang-color:#F05138"></span>&nbsp;Swift
+        </span>
+      </a>
+
       <a class="repo-card" href="https://github.com/molayab/ios-musicplayer" aria-label="ios-musicplayer on GitHub">
         <span class="repo-name">ios-musicplayer</span>
         <p class="repo-desc">Third-party alternative to the native iOS Music app.</p>
