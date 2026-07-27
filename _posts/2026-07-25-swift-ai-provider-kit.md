@@ -4,6 +4,7 @@ title: "swift-ai-provider-kit: One AI Client, Any Provider"
 description: "A provider-agnostic Swift package for Claude, OpenAI, and on-device Apple Intelligence — and how Grove uses it to power a lightweight, on-device Chat space."
 date: 2026-07-25 12:00:00 -0000
 tags: [swift, ai, macos, open-source, grove]
+image: /assets/images/posts/swift-ai-provider-kit.png
 ---
 
 Every app that wants an AI feature eventually hits the same wall: the provider you pick today (Claude, OpenAI, whatever's next) isn't the one you'll want in a year, but by the time you notice, its request/response shapes, streaming format, and tool-calling conventions are wired straight into your app. Swapping providers means rewriting the integration, not changing a constructor argument.

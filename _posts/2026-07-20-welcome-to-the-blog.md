@@ -4,6 +4,7 @@ title: "Welcome to the blog"
 description: "What this space is for, and what to expect: technical notes, release notes, and the occasional deep dive."
 date: 2026-07-20
 tags: [meta]
+image: /assets/images/posts/welcome-to-the-blog.png
 ---
 
 This is the first post on this blog — mostly a placeholder to shake out the template, but also a short note on what I want this space to be.

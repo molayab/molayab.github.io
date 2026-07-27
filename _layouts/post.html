@@ -23,24 +23,30 @@ layout: default
     {% endif %}
   </div>
 
+  {% if page.image %}
+  <div class="post-cover">
+    <img src="{{ page.image | relative_url }}" alt="" width="1200" height="630" loading="eager">
+  </div>
+  {% endif %}
+
   <div class="post-body">
     {{ content }}
   </div>
 
   <div class="post-share">
-    <p class="post-share-label">Share this post</p>
+    <p class="post-share-label">Share</p>
     <div class="post-share-actions">
-      <button type="button" class="share-btn" id="shareCopyBtn" data-url="{{ page.url | absolute_url }}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        <span class="share-btn-label">Copy link</span>
+      <button type="button" class="share-icon-btn" id="shareCopyBtn" data-url="{{ page.url | absolute_url }}" aria-label="Copy link" title="Copy link">
+        <svg class="icon-default" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <svg class="icon-success" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
-      <button type="button" class="share-btn" id="shareNativeBtn" style="display:none" data-title="{{ page.title | escape }}" data-text="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}" data-url="{{ page.url | absolute_url }}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        <span class="share-btn-label">Share…</span>
+      <button type="button" class="share-icon-btn" id="shareNativeBtn" style="display:none" aria-label="Share" title="Share" data-title="{{ page.title | escape }}" data-text="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}" data-url="{{ page.url | absolute_url }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </button>
-      <a class="share-btn" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener noreferrer">
-        <span class="share-btn-label">Share on X</span>
+      <a class="share-icon-btn" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </a>
+      <span class="sr-only" id="shareStatus" role="status" aria-live="polite"></span>
     </div>
   </div>
 </article>
@@ -49,7 +55,12 @@ layout: default
 (function () {
   var copyBtn = document.getElementById('shareCopyBtn');
   var nativeBtn = document.getElementById('shareNativeBtn');
+  var status = document.getElementById('shareStatus');
   if (!copyBtn && !nativeBtn) return;
+
+  function announce(msg) {
+    if (status) status.textContent = msg;
+  }
 
   function fallbackCopy(text) {
     var input = document.createElement('input');
@@ -65,14 +76,11 @@ layout: default
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
       var url = copyBtn.getAttribute('data-url');
-      var label = copyBtn.querySelector('.share-btn-label');
-      var original = label.textContent;
       var showCopied = function () {
         copyBtn.classList.add('is-copied');
-        label.textContent = 'Copied!';
+        announce('Link copied');
         setTimeout(function () {
           copyBtn.classList.remove('is-copied');
-          label.textContent = original;
         }, 1600);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
