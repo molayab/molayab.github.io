@@ -4,6 +4,7 @@ title: "A Kanban Board for AI Agents: Running a Junior Dev Team on Claude Code"
 description: "How this site and Grove get built now — GitHub issues as a kanban board, Claude Code agents doing research, planning, building, and auditing, and what that used to cost versus what it costs today."
 date: 2026-07-27 10:00:00 -0000
 tags: [ai-agents, claude-code, workflow, grove, developer-tools]
+image: /assets/images/posts/ai-agent-dev-team.png
 ---
 
 Most of the commits on this site — and a growing share of the ones on [Grove](https://grove.molayab.com) — aren't typed by me. They're written by Claude Code, working off a GitHub issue, on a throwaway branch, reviewed before anything touches `master`. I didn't set out to build a "process" for this; it fell out of just trying to keep an AI agent from making a mess of a real codebase. A few months in, it looks less like "using an AI tool" and more like running a small, very literal-minded junior dev team.

@@ -4,6 +4,7 @@ title: "Grove: a Mac App for AI Coding Agents"
 description: "Grove puts Claude Code, opencode, Codex, Gemini CLI, or Aider next to a real shell, file tree, and diff viewer, with full git worktree support."
 date: 2026-07-20 01:00:00 -0000
 tags: [grove, macos, ai-agents, developer-tools]
+image: /assets/images/posts/introducing-grove.png
 ---
 
 If you've adopted an AI coding agent, you've probably built a small ritual around it: one terminal tab running the agent, another for `git diff`, a Finder window or editor for the file tree, and a mental map of which one is pointed at which checkout. It works, but it's friction that has nothing to do with the actual work.
