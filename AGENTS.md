@@ -77,9 +77,12 @@ Either way: any commit pushed to the default branch is what GitHub Pages deploys
 
 ### The `blog-writer` subagent
 
-A `blog-writer` subagent drafts new posts in this site's voice and enforces the conventions above. It's defined twice, once per agent runtime, because each has its own subagent file format — but both copies carry **the same instructions body**, only the YAML frontmatter differs:
+A `blog-writer` subagent drafts new posts in this site's voice and enforces the conventions above. It needs to exist once per agent runtime, because each has its own subagent file format — but its actual instructions have a single source of truth, split by reference rather than duplicated:
 
-- `.claude/agents/blog-writer.md` — Claude Code's format (`name`/`description`/`tools`/`model` frontmatter).
-- `.opencode/agents/blog-writer.md` — opencode's format (`description`/`mode: subagent`/`permission` frontmatter; opencode's older boolean `tools:` field is deprecated in favor of `permission`).
+- `.agents/blog-writer.md` — the canonical instructions: the voice guide, the pre-writing checklist, and the drafting workflow. No frontmatter, plain markdown. **Edit this file, and only this file,** when the voice or process changes.
+- `.claude/agents/blog-writer.md` — Claude Code's subagent format (`name`/`description`/`tools`/`model` frontmatter). The body is a one-line pointer telling the agent to read `.agents/blog-writer.md` before doing anything else.
+- `.opencode/agents/blog-writer.md` — opencode's subagent format (`description`/`mode: subagent`/`permission` frontmatter; opencode's older boolean `tools:` field is deprecated in favor of `permission`). Same one-line pointer as the Claude Code version.
 
-Both dot-directories are already outside Jekyll's default build inputs (Jekyll skips dotfiles/dot-directories unless explicitly `include`d), so neither needs an `exclude:` entry in `_config.yml`. If you change the voice guide, the front-matter workflow, or anything else in the instructions body, edit both files identically — a subagent's behavior shouldn't depend on which tool the person happens to be running.
+The only content that's genuinely duplicated is the one-paragraph `description:` trigger text in each frontmatter block — each tool reads that field itself to decide when to invoke the subagent, so it can't live in the shared file. Everything an invoked agent actually acts on lives in `.agents/blog-writer.md` alone.
+
+All three are under dot-directories, which are already outside Jekyll's default build inputs (Jekyll skips dotfiles/dot-directories unless explicitly `include`d), so none of them need an `exclude:` entry in `_config.yml`.
