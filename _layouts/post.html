@@ -26,4 +26,76 @@ layout: default
   <div class="post-body">
     {{ content }}
   </div>
+
+  <div class="post-share">
+    <p class="post-share-label">Share this post</p>
+    <div class="post-share-actions">
+      <button type="button" class="share-btn" id="shareCopyBtn" data-url="{{ page.url | absolute_url }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span class="share-btn-label">Copy link</span>
+      </button>
+      <button type="button" class="share-btn" id="shareNativeBtn" style="display:none" data-title="{{ page.title | escape }}" data-text="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}" data-url="{{ page.url | absolute_url }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="share-btn-label">Share…</span>
+      </button>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener noreferrer">
+        <span class="share-btn-label">Share on X</span>
+      </a>
+    </div>
+  </div>
 </article>
+
+<script>
+(function () {
+  var copyBtn = document.getElementById('shareCopyBtn');
+  var nativeBtn = document.getElementById('shareNativeBtn');
+  if (!copyBtn && !nativeBtn) return;
+
+  function fallbackCopy(text) {
+    var input = document.createElement('input');
+    input.value = text;
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.appendChild(input);
+    input.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(input);
+  }
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var url = copyBtn.getAttribute('data-url');
+      var label = copyBtn.querySelector('.share-btn-label');
+      var original = label.textContent;
+      var showCopied = function () {
+        copyBtn.classList.add('is-copied');
+        label.textContent = 'Copied!';
+        setTimeout(function () {
+          copyBtn.classList.remove('is-copied');
+          label.textContent = original;
+        }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showCopied, function () {
+          fallbackCopy(url);
+          showCopied();
+        });
+      } else {
+        fallbackCopy(url);
+        showCopied();
+      }
+    });
+  }
+
+  if (nativeBtn && navigator.share) {
+    nativeBtn.style.display = '';
+    nativeBtn.addEventListener('click', function () {
+      navigator.share({
+        title: nativeBtn.getAttribute('data-title'),
+        text: nativeBtn.getAttribute('data-text'),
+        url: nativeBtn.getAttribute('data-url')
+      }).catch(function () {});
+    });
+  }
+})();
+</script>
