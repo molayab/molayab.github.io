@@ -60,7 +60,10 @@
 </head>
 <body>
 
-<a class="site-mark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} — Home">M</a>
+<a class="site-mark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} — Home">
+  <span class="site-mark-fallback" aria-hidden="true">M</span>
+  <img class="site-mark-avatar" src="https://github.com/molayab.png?size=72" alt="" width="36" height="36" loading="eager" onerror="this.style.display='none'">
+</a>
 
 <!-- Theme toggle -->
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
