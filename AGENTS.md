@@ -60,9 +60,32 @@ Either way: any commit pushed to the default branch is what GitHub Pages deploys
    description: "One sentence used for the post-list card and social/meta previews."
    date: 2026-08-01 12:00:00 -0000
    tags: [tag1, tag2]
+   image: /assets/images/posts/slug.png
    ---
    ```
-   `layout: post` is required (it's what wires up `_layouts/post.html`'s article chrome). `description` isn't optional in practice — `blog/index.html` and the social meta tags fall back to a truncated `post.excerpt` if it's missing, which reads worse than a written one. Check existing posts' `tags:` values before inventing a new tag, to keep the tag set from sprawling.
+   `layout: post` is required (it's what wires up `_layouts/post.html`'s article chrome). `description` isn't optional in practice — `blog/index.html` and the social meta tags fall back to a truncated `post.excerpt` if it's missing, which reads worse than a written one. Check existing posts' `tags:` values before inventing a new tag, to keep the tag set from sprawling. `image:` isn't optional either — see "Post cover images" below before making one.
 3. **Write the body** in kramdown (GFM-flavored). Fenced ` ```lang ` code blocks get Rouge syntax highlighting automatically — no extra setup.
 4. **Preview locally**: `bundle install` (first time only) then `bundle exec jekyll serve`, and check the post at `http://localhost:4000/blog/...` — confirm the listing card, the tags, and any code blocks render as expected before pushing. `blog/index.html` picks the new post up automatically; there's nothing else to wire up.
 5. **Commit and push to the default branch** — GitHub Pages builds and deploys on every push, there's no separate publish step.
+
+### Post cover images
+
+- Every post has an `image:` front matter field pointing at `assets/images/posts/<slug>.png`, a 1200×630 PNG. `default.html`'s `og:image`/`twitter:image` and the JSON-LD `BlogPosting.image` use `page.image` when set, falling back to the site-wide `og-image.png`; `post.html` also renders it as a rounded-corner hero above the article body — so every post needs one before it ships.
+- **Never make it a title card.** The image sits directly above the same title/description already on the page (and duplicates what's already in the `<title>`/meta tags) — re-rendering that text as a graphic is pure redundancy, not a cover. Instead, draw a small abstract diagram that illustrates what the post is actually *about* — the concept, not the headline. E.g. `mac-mini-home-server.png` (Mac mini → tunnel → shield → cloud), `ai-agent-dev-team.png` (kanban board → research/plan/build icons → audit shield → merge), `swift-ai-provider-kit.png` (package → three provider icons → chat bubble). Look at the existing images under `assets/images/posts/` before making a new one — they're the reference for both the visual language below and the "one flow, 2–3 nodes" level of abstraction to aim for.
+- **Visual language**, shared with `og-image.png`/favicon so covers read as one family: black background (`#050705`), a soft radial accent glow (`#52B788`) centered around 78%/42% of the frame, a faint dot-grid masked to the glow. Icons are flat line-art — white/light strokes (~3px, round caps/joins), no photographic or literal-brand imagery; the "destination" node of the diagram sits inside the glow and can be accent-filled to draw the eye. Dotted accent-colored connector paths (`stroke-dasharray`) link the nodes to suggest a flow/process rather than a static illustration.
+- **How it's made**: hand-build a small self-contained HTML file (inline SVG, no external assets) at 1200×630 reusing the recipe above, then rasterize it with a headless Chromium screenshot (`chromium --headless --disable-gpu --window-size=1200,630 --screenshot=out.png file://...`) — the same one-off render-and-discard approach used for `favicon.svg`/`og-image.png` (see git history for prior examples). This needs no build step or repo dependency; the HTML template is scratch work — only the resulting PNG gets committed, to `assets/images/posts/<slug>.png`.
+- **Always produce 3 candidate concepts and let a human pick** — different framings of the post's core idea (e.g. input-centered vs. process-centered vs. output-centered), not 3 recolors of the same layout. This is a judgment call about which diagram best represents the post, and that judgment belongs to a person, not whichever agent generated the images. This is exactly what the `cover-image` subagent below automates, but the same rule applies if you're doing it by hand.
+
+### Blog subagents: `blog-writer` and `cover-image`
+
+Two subagents standardize post creation: `blog-writer` drafts the post in this site's voice (see its own instructions for the voice guide and the tone-by-post-type breakdown), then delegates to `cover-image` to design the cover — which comes back with 3 diagram concepts per the rule above instead of just picking one.
+
+Each needs to exist once per agent runtime, because each runtime has its own subagent file format — but the actual instructions have a single source of truth per agent, split by reference rather than duplicated:
+
+- `.agents/blog-writer.md` / `.agents/cover-image.md` — the canonical instructions for each. No frontmatter, plain markdown. **Edit these files, and only these files,** when the voice, process, or visual language changes.
+- `.claude/agents/blog-writer.md` / `.claude/agents/cover-image.md` — Claude Code's subagent format (`name`/`description`/`tools`/`model` frontmatter). Each body is a one-line pointer telling the agent to read its `.agents/*.md` counterpart before doing anything else. `blog-writer`'s `tools:` includes `Task` so it can invoke `cover-image`.
+- `.opencode/agents/blog-writer.md` / `.opencode/agents/cover-image.md` — opencode's subagent format (`description`/`mode: subagent`/`permission` frontmatter; opencode's older boolean `tools:` field is deprecated in favor of `permission`). Same one-line pointer as the Claude Code versions. `blog-writer`'s `permission` includes `task: allow` for the same reason.
+
+The only content that's genuinely duplicated is the one-paragraph `description:` trigger text in each frontmatter block — each tool reads that field itself to decide when to invoke the subagent, so it can't live in the shared file. Everything an invoked agent actually acts on lives in its `.agents/*.md` file alone.
+
+All of these are under dot-directories, which are already outside Jekyll's default build inputs (Jekyll skips dotfiles/dot-directories unless explicitly `include`d), so none of them need an `exclude:` entry in `_config.yml`.
