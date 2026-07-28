@@ -39,14 +39,6 @@ The mental model I started with — AI as a fancy autocomplete, finishing lines 
 
 Claude Code fits that shape better than it fits "autocomplete." Once I started treating it that way — assign the ticket, review the PR, don't rubber-stamp — the quality of what came back went up, mostly because I stopped accepting first drafts as final answers.
 
-## What this used to cost
-
-It's worth being blunt about the economics, because they're the part that actually changed. A junior developer, even a good one, is realistically **$70k–$120k a year** loaded — salary plus benefits, equipment, onboarding time, management overhead — before they've shipped anything a solo project like this one needs. Scale that to a small team of two or three to cover research, implementation, and review as separate roles, and you're well into six figures a year for exactly the loop described above: someone reads a ticket, proposes a plan, writes the code, someone else reviews it.
-
-A Claude Pro or Max subscription runs **$20–$200 a month** depending on the tier, and covers the entire research → plan → build → audit loop for a side project plus a shipping Mac app, run by one person after hours. (GPT Plus/Pro sit in a comparable range if that's your provider of choice — the economics argument isn't Claude-specific, it's about what a subscription now buys versus what a hire used to cost.) That's not "cheaper than a junior developer" — it's a different order of magnitude, and it's the reason a single person can now run something that used to require a payroll.
-
-The catch, and it's a real one: the subscription doesn't buy judgment. It buys throughput. The review step in the loop above isn't ceremony — it's the part that used to be a senior engineer's job, and it still is. What got cheap is the typing, the boilerplate, the first draft of a plan. What didn't get cheap, and shouldn't, is deciding whether the plan was right.
-
 ## Where this is headed
 
 The next piece I'm building into Grove is making this loop visible inside the app itself — surfacing an issue's status, its linked branch, and its PR review state next to the workspace, instead of me tabbing over to GitHub to check where a ticket is. If the whole point is treating agents like a team you manage through a board, the tool you're already using to drive the agent should show you the board.
