@@ -111,5 +111,43 @@
   }
 })();
 </script>
+
+{% if content contains 'language-mermaid' %}
+<!-- Mermaid diagrams: only loaded on pages that actually contain a ```mermaid fenced block -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  function mermaidTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+  }
+
+  document.querySelectorAll('pre > code.language-mermaid').forEach(function (code) {
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.setAttribute('data-mermaid-source', code.textContent);
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+
+  function renderMermaid() {
+    var diagrams = document.querySelectorAll('.mermaid[data-mermaid-source]');
+    if (!diagrams.length) return;
+    mermaid.initialize({ startOnLoad: false, theme: mermaidTheme() });
+    diagrams.forEach(function (el) {
+      el.removeAttribute('data-processed');
+      el.textContent = el.getAttribute('data-mermaid-source');
+    });
+    mermaid.run({ nodes: diagrams });
+  }
+
+  renderMermaid();
+
+  var themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) themeToggle.addEventListener('click', function () {
+    setTimeout(renderMermaid, 0);
+  });
+})();
+</script>
+{% endif %}
 </body>
 </html>

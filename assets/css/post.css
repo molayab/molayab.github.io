@@ -318,6 +318,31 @@
 
 .post-body .highlight .err { color: var(--code-error); }
 
+/* Mermaid diagrams (rendered client-side; see _layouts/default.html) */
+.post-body .mermaid,
+.post-body pre code.language-mermaid {
+  display: block;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  overflow-x: auto;
+}
+.post-body .mermaid {
+  display: flex;
+  justify-content: center;
+}
+.post-body .mermaid svg {
+  max-width: 100%;
+}
+/* No-JS fallback: raw mermaid source before the render script replaces it */
+.post-body pre code.language-mermaid {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  white-space: pre;
+}
+
 /* ── Blog index ─────────────────────────────────────────────── */
 .tag-filter-bar {
   display: flex;

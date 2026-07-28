@@ -20,22 +20,11 @@ Four pieces, each doing one job:
 3. **Cloudflare Tunnel** (`cloudflared`) — the *only* way in from the outside. No inbound ports, no port forwarding on the router, no exposed IP. The tunnel dials out to Cloudflare's edge; Cloudflare terminates TLS and enforces access policy before anything reaches the Mac.
 4. **GitHub/GitLab** — still the source of truth and the offsite backup. The Mac mini is a second, local copy — not a replacement for the cloud remote, a 3-2-1-style extra copy of it.
 
-```
- [ your laptop ]                    [ Cloudflare edge ]
-       |                                    |
-       |  https://ci.yourdomain.com          | Access policy (SSO/OTP)
-       v                                    v
-  ============  outbound-only tunnel  ============
-                                             |
-                                     [ Mac mini, home network ]
-                                       - git remote (bare repo)
-                                       - GitHub Actions runner (ephemeral, sandboxed user)
-                                       - Samba/NFS + media/photos services
-                                             |
-                                    scheduled mirror push
-                                             |
-                                             v
-                                [ GitHub.com / GitLab.com — offsite backup ]
+```mermaid
+flowchart LR
+    laptop["Your laptop"] -->|"https://ci.yourdomain.com"| edge["Cloudflare edge<br/>Access policy (SSO/OTP)"]
+    edge -->|"outbound-only tunnel"| mac["Mac mini, home network<br/>• git remote (bare repo)<br/>• GitHub Actions runner (ephemeral, sandboxed user)<br/>• Samba/NFS + media/photos services"]
+    mac -->|"scheduled mirror push"| offsite["GitHub.com / GitLab.com<br/>offsite backup"]
 ```
 
 ## Step 1 — Prep the Mac mini
