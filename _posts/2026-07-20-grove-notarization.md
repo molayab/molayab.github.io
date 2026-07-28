@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Getting Grove Notarized by Apple"
-description: "We've started the process to get Grove notarized by Apple. A short explainer on what notarization actually means, and what changes for you."
+description: "I've started the process to get Grove notarized by Apple. A short explainer on what notarization actually means, and what changes for you."
 date: 2026-07-20 02:00:00 -0000
 tags: [grove, macos, security]
 image: /assets/images/posts/grove-notarization.png
 ---
 
-If you've downloaded Grove already, you've hit this: open the DMG, drag Grove to Applications, launch it, and macOS throws up a warning about an "unidentified developer" before it'll let you in. You have to right-click the app and choose Open instead of just double-clicking. That's expected for an app distributed outside the Mac App Store the way Grove currently is, but it's not a great first impression — so we've started the process to fix it: Grove is now enrolled to be **notarized** by Apple.
+If you've downloaded Grove already, you've hit this: open the DMG, drag Grove to Applications, launch it, and macOS throws up a warning about an "unidentified developer" before it'll let you in. You have to right-click the app and choose Open instead of just double-clicking. That's expected for an app distributed outside the Mac App Store the way Grove currently is, but it's not a great first impression — so I've started the process to fix it: Grove is now enrolled to be **notarized** by Apple.
 
 ## What notarization actually is
 
@@ -27,6 +27,6 @@ Getting there requires three things: enrollment in the Apple Developer Program, 
 
 ## Where things stand
 
-Enrollment is underway. Until it's complete, releases still ship ad-hoc signed, and the right-click → Open step is still necessary — we'd rather tell you that plainly than pretend it's already fixed. Once the certificate is in place, the notarization step gets added to the release pipeline and future versions of Grove install the way every other properly distributed Mac app does.
+Enrollment is underway. Until it's complete, releases still ship ad-hoc signed, and the right-click → Open step is still necessary — I'd rather tell you that plainly than pretend it's already fixed. Once the certificate is in place, the notarization step gets added to the release pipeline and future versions of Grove install the way every other properly distributed Mac app does.
 
 **[grove.molayab.com](https://grove.molayab.com)** — thanks for bearing with the extra click in the meantime.
