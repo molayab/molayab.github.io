@@ -15,7 +15,7 @@ This is the setup, end to end: what's on the Mac, how the self-hosted runner is 
 
 Four pieces, each doing one job:
 
-1. **The Mac mini** — always-on, low-power, sits on the home network. Holds a full local clone/mirror of the repos that matter and runs the GitHub Actions runner.
+1. **The Mac mini** — always-on, low-power, sits on the home network. Runs [Gitea](https://about.gitea.com) as a local git host and runs the GitHub Actions runner.
 2. **A self-hosted Actions runner** — registered to specific private repos only, running as an unprivileged, ephemeral service account, not my login user.
 3. **Cloudflare Tunnel** (`cloudflared`) — the *only* way in from the outside. No inbound ports, no port forwarding on the router, no exposed IP. The tunnel dials out to Cloudflare's edge; Cloudflare terminates TLS and enforces access policy before anything reaches the Mac.
 4. **GitHub/GitLab** — still the source of truth and the offsite backup. The Mac mini is a second, local copy — not a replacement for the cloud remote, a 3-2-1-style extra copy of it.
@@ -23,7 +23,7 @@ Four pieces, each doing one job:
 ```mermaid
 flowchart LR
     laptop["Your laptop"] -->|"https://ci.yourdomain.com"| edge["Cloudflare edge<br/>Access policy (SSO/OTP)"]
-    edge -->|"outbound-only tunnel"| mac["Mac mini, home network<br/>• git remote (bare repo)<br/>• GitHub Actions runner (ephemeral, sandboxed user)<br/>• Samba/NFS + media/photos services"]
+    edge -->|"outbound-only tunnel"| mac["Mac mini, home network<br/>• Gitea (git host + web UI)<br/>• GitHub Actions runner (ephemeral, sandboxed user)<br/>• Samba/NFS + media/photos services"]
     mac -->|"scheduled mirror push"| offsite["GitHub.com / GitLab.com<br/>offsite backup"]
 ```
 
@@ -38,24 +38,20 @@ Before anything touches the network, harden the box itself — it's now a server
 - **`sudo softwareupdate --schedule on`** so security patches land without you remembering to click "Later" for a month.
 - Give it a static local IP via a DHCP reservation on your router, so `cloudflared` and any local services always find it at the same address.
 
-## Step 2 — Host a local copy of the repo
+## Step 2 — Host a local copy of the repo, with Gitea
 
-The Mac mini's git server doesn't need to be fancy — a bare repository over SSH does the job, and it's one less service to secure than running Gitea or Forgejo if you don't need their web UI:
+The simplest git server here would just be a bare repository over SSH — and that's genuinely enough if all you want is a remote. I went one step further and run [Gitea](https://about.gitea.com) instead: a single Go binary, no external database needed (SQLite is plenty at this scale), that turns the Mac mini into something closer to a personal GitHub — browsing diffs, PRs, and issues against your own repos instead of just `git log`-ing your way through a terminal.
 
-```bash
-# on the Mac mini, as the ci user
-mkdir -p ~/repos/myproject.git
-git init --bare ~/repos/myproject.git
-```
+Installing it, running it as an always-on `launchd` service under the same non-admin `ci` user, and wiring it into the Cloudflare Tunnel from Step 4 below is its own walkthrough: **[Gitea on the Mac Mini: A Self-Hosted Git Server with a Web UI](/blog/2026/07/29/gitea-mac-mini/)**. Come back here once it's running.
 
 From your laptop, add it as a second remote alongside `origin` (GitHub):
 
 ```bash
-git remote add homeserver ci@mac-mini.local:repos/myproject.git
+git remote add homeserver git@git.yourdomain.com:you/myproject.git
 git push homeserver main
 ```
 
-Now you can push to either remote, and the Actions runner (next step) can clone locally at LAN speed instead of pulling over the internet on every job. If you'd rather have a lightweight web UI for browsing branches/PRs locally, [Forgejo](https://forgejo.org) or [Gitea](https://about.gitea.com) run comfortably on a Mac mini as a background service — but treat that as optional; it's an extra attack surface for something SSH + `git` already covers.
+Now you can push to either remote, and the Actions runner (next step) can clone from Gitea at LAN speed instead of pulling over the internet on every job.
 
 ## Step 3 — Register a self-hosted GitHub Actions runner, safely
 
@@ -116,13 +112,15 @@ credentials-file: /Users/ci/.cloudflared/<tunnel-uuid>.json
 
 ingress:
   - hostname: git.yourdomain.com
-    service: ssh://localhost:22
+    service: http://localhost:3000
   - hostname: photos.yourdomain.com
     service: http://localhost:2283
   - hostname: files.yourdomain.com
     service: http://localhost:5000
   - service: http_status:404
 ```
+
+(`git.yourdomain.com` points at Gitea's web UI here — the [Gitea post](/blog/2026/07/29/gitea-mac-mini/) covers the extra `ingress` entry needed to also tunnel git-over-SSH.)
 
 ```bash
 cloudflared tunnel route dns home-server git.yourdomain.com
@@ -139,7 +137,9 @@ The net effect: `git.yourdomain.com` resolves and answers from anywhere, but nob
 
 ## Step 5 — Mirror to GitHub/GitLab as the offsite backup
 
-The Mac mini being the local, low-latency copy doesn't replace the cloud remote — it's the other way around: GitHub (or GitLab) stays the durable offsite copy in case the Mac mini's disk dies, gets stolen, or the house burns down. Standard 3-2-1 backup logic, just applied to git remotes. A `launchd` job keeps a mirror in sync without you thinking about it:
+The Mac mini being the local, low-latency copy doesn't replace the cloud remote — it's the other way around: GitHub (or GitLab) stays the durable offsite copy in case the Mac mini's disk dies, gets stolen, or the house burns down. Standard 3-2-1 backup logic, just applied to git remotes.
+
+Gitea can do this natively: open a repo, go to **Settings → Mirror Settings → Push Mirrors**, and add GitHub or GitLab as a target with a personal access token and a sync interval — no script to maintain, and the last-sync status is right there in the UI. If you're still on a plain bare repo, a `launchd` job does the same job by hand:
 
 ```bash
 # ~/scripts/mirror-backup.sh, run as the ci user
@@ -149,7 +149,7 @@ git push --mirror https://github.com/you/myproject-mirror.git
 git push --mirror https://gitlab.com/you/myproject-mirror.git
 ```
 
-A `launchd` plist firing that script nightly (or a `cron` entry, if you'd rather) is enough — the point isn't real-time replication, it's making sure a second, independent copy exists somewhere you don't control the power switch for.
+Either way, the point isn't real-time replication, it's making sure a second, independent copy exists somewhere you don't control the power switch for.
 
 ## Security checklist
 
@@ -161,6 +161,7 @@ A `launchd` plist firing that script nightly (or a `cron` entry, if you'd rather
 - [ ] Automatic security updates on; the Mac mini isn't something you remember to patch manually
 - [ ] Secrets live in GitHub Actions secrets / Cloudflare, never hardcoded in the workflow or on disk in plaintext
 - [ ] A real offsite mirror exists (GitHub/GitLab) that doesn't depend on the Mac mini being alive
+- [ ] If running Gitea: admin 2FA on, self-registration disabled, kept up to date (see the [dedicated Gitea post](/blog/2026/07/29/gitea-mac-mini/) for the full checklist)
 
 ## What it actually costs vs. hosted CI minutes
 
@@ -226,3 +227,5 @@ The pattern repeats: one Mac mini, one Cloudflare Tunnel, an Access policy per s
 ---
 
 If you're weighing this for your own setup — different hardware, a NAS box instead of repurposing a Mac, whatever — I'd genuinely like to compare notes: `hello@molayab.com`, or find me on X below.
+
+Next up: [installing Gitea on this same Mac mini](/blog/2026/07/29/gitea-mac-mini/) as the always-on git host referenced in Step 2 above.
