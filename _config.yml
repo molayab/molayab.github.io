@@ -13,6 +13,15 @@ kramdown:
 
 permalink: /blog/:year/:month/:day/:title/
 
+# Posts here are never embargoed to a real future date — `date:` just records
+# roughly when a post went up, rounded to a tidy hour. Jekyll's default
+# (future: false) silently drops a post from site.posts/sitemap/feed if its
+# date is even a few minutes ahead of the exact moment GitHub Pages happens
+# to build — which it reliably will be, since the post is usually written
+# and dated before the commit that adds it is actually pushed and built.
+# `future: true` removes that race entirely.
+future: true
+
 collections:
   posts:
     output: true
