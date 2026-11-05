@@ -10,7 +10,7 @@ layout: default
     Blog
   </a>
 
-  <p class="eyebrow">{{ page.date | date: "%B %-d, %Y" }}</p>
+  <p class="eyebrow"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></p>
   <h1 class="post-title">{{ page.title }}</h1>
   {% if page.description %}<p class="post-subtitle">{{ page.description }}</p>{% endif %}
 
@@ -25,7 +25,7 @@ layout: default
 
   {% if page.image %}
   <div class="post-cover">
-    <img src="{{ page.image | relative_url }}" alt="" width="1200" height="630" loading="eager">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: '' | escape }}" width="1200" height="630" loading="eager" fetchpriority="high">
   </div>
   {% endif %}
 

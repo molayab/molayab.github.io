@@ -7,11 +7,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mateo Olaya Bernal — Software Engineer & Swift Developer</title>
 <meta name="description" content="I'm a software engineer building native Swift apps for macOS and iOS, backend services with Vapor, and open-source developer tools.">
+<meta name="author" content="Mateo Olaya Bernal">
 <link rel="canonical" href="https://molayab.com/">
+<link rel="alternate" type="application/rss+xml" title="Mateo Olaya Bernal — Blog" href="https://molayab.com/feed.xml">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mateo Olaya Bernal">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://molayab.com/">
 <meta property="og:title" content="Mateo Olaya Bernal — Software Engineer & Swift Developer">
 <meta property="og:description" content="I'm a software engineer building native Swift apps for macOS and iOS, backend services with Vapor, and open-source developer tools.">
@@ -25,6 +28,7 @@
 <meta name="twitter:title" content="Mateo Olaya Bernal — Software Engineer & Swift Developer">
 <meta name="twitter:description" content="I'm a software engineer building native Swift apps for macOS and iOS, backend services with Vapor, and open-source developer tools.">
 <meta name="twitter:image" content="https://molayab.com/og-image.png">
+<meta name="twitter:image:alt" content="Mateo Olaya Bernal — Software Engineer & Swift Developer">
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -46,16 +50,32 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Mateo Olaya Bernal",
-  "url": "https://molayab.com/",
-  "jobTitle": "Software Engineer",
-  "sameAs": [
-    "https://github.com/molayab",
-    "https://x.com/molayab_",
-    "https://instagram.com/molayab"
-  ],
-  "knowsAbout": ["Swift", "iOS", "macOS", "Vapor", "Backend Development"]
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://molayab.com/#website",
+      "name": "Mateo Olaya Bernal",
+      "url": "https://molayab.com/",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://molayab.com/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://molayab.com/#person",
+      "name": "Mateo Olaya Bernal",
+      "url": "https://molayab.com/",
+      "image": "https://github.com/molayab.png",
+      "email": "mailto:hello@molayab.com",
+      "jobTitle": "Software Engineer",
+      "description": "Software engineer building native Swift apps for macOS and iOS, backend services with Vapor, and open-source developer tools.",
+      "sameAs": [
+        "https://github.com/molayab",
+        "https://x.com/molayab_",
+        "https://instagram.com/molayab"
+      ],
+      "knowsAbout": ["Swift", "iOS", "macOS", "Vapor", "Backend Development"]
+    }
+  ]
 }
 </script>
 
@@ -521,7 +541,7 @@ body::before {
 
   <!-- About -->
   <section aria-label="About">
-    <p class="eyebrow">About</p>
+    <h2 class="eyebrow">About</h2>
     <p class="about-text">I work across the stack — native Swift apps for macOS and iOS, backend services in Vapor, and the occasional systems-level detour into C and C++. I like building focused tools: things that do one job well and feel considered in the details.</p>
     <p class="about-text">Most of what I ship ends up open source or as an indie app — you'll find both below.</p>
   </section>
@@ -530,7 +550,7 @@ body::before {
 
   <!-- Apps -->
   <section aria-label="Apps">
-    <p class="eyebrow">Apps</p>
+    <h2 class="eyebrow">Apps</h2>
 
     <a class="project-card" href="https://grove.molayab.com" aria-label="Grove — git workspace manager for macOS">
       <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Grove app icon">
@@ -562,7 +582,7 @@ body::before {
 
   <!-- Projects -->
   <section aria-label="Open source projects">
-    <p class="eyebrow">Projects</p>
+    <h2 class="eyebrow">Projects</h2>
 
     <div class="repo-grid">
       <a class="repo-card" href="https://github.com/molayab/swift-ai-provider-kit" aria-label="swift-ai-provider-kit on GitHub">
@@ -634,7 +654,7 @@ body::before {
 
   <!-- Blog -->
   <section aria-label="Blog">
-    <p class="eyebrow">Blog</p>
+    <h2 class="eyebrow">Blog</h2>
 
     <a class="project-card" href="/blog/" aria-label="Blog — technical notes, release notes, and articles">
       <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Blog mark">
