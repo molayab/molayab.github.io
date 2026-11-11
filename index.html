@@ -469,6 +469,149 @@ body::before {
   flex-shrink: 0;
 }
 
+/* ── Latest posts (blog) ────────────────────────────────────── */
+.post-feature,
+.post-row {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.2s ease;
+}
+.post-feature:hover,
+.post-row:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--glow);
+}
+.post-feature:focus-visible,
+.post-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.post-feature {
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+
+.post-cover-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  background: #050705;
+}
+.post-feature .post-cover-img { border-bottom: 1px solid var(--border); }
+
+.post-feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+}
+
+.post-meta {
+  font-size: 0.75rem;
+  font-family: var(--mono);
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.post-feature-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.post-feature-desc {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+
+.post-rows {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-row {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  align-items: center;
+  gap: 0 20px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+.post-row.is-coverless {
+  grid-template-columns: 1fr;
+  padding: 16px 20px;
+}
+.post-row .post-cover-img {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.post-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.post-row-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.post-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.post-all svg { transition: transform 0.15s ease; }
+.post-all:hover svg { transform: translateX(3px); }
+.post-all:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .post-feature:hover,
+  .post-row:hover,
+  .post-all:hover svg { transform: none; }
+}
+
 /* ── Footer ─────────────────────────────────────────────────── */
 .footer {
   padding: 40px 0 80px;
@@ -505,6 +648,12 @@ body::before {
   .project-card { grid-template-columns: 60px 1fr; gap: 0 16px; padding: 18px; }
   .project-icon { width: 60px; height: 60px; border-radius: 13px; }
   .repo-grid { grid-template-columns: 1fr; }
+  .post-feature-body { padding: 18px; }
+  .post-feature-title { font-size: 1.25rem; }
+  .post-row { grid-template-columns: 1fr; gap: 12px 0; padding: 12px 12px 16px; }
+  .post-row .post-row-body { padding: 0 6px; }
+  .post-row.is-coverless { padding: 16px 18px; }
+  .post-row.is-coverless .post-row-body { padding: 0; }
   .footer-year { display: none; }
 }
 </style>
@@ -652,34 +801,45 @@ body::before {
 
   <hr class="rule">
 
-  <!-- Blog -->
-  <section aria-label="Blog">
-    <h2 class="eyebrow">Blog</h2>
+  <!-- Blog: latest posts, newest featured. Generated from site.posts at build time. -->
+  <section aria-labelledby="blog-heading">
+    <h2 class="eyebrow" id="blog-heading">Blog</h2>
 
-    <a class="project-card" href="/blog/" aria-label="Blog — technical notes, release notes, and articles">
-      <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Blog mark">
-        <defs>
-          <linearGradient id="blogGrad" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#52B788"/>
-            <stop offset="100%" stop-color="#1B4332"/>
-          </linearGradient>
-        </defs>
-        <rect width="1024" height="1024" rx="225" ry="225" fill="url(#blogGrad)"/>
-        <text x="512" y="660" font-family="system-ui, -apple-system, 'Helvetica Neue', sans-serif" font-size="520" font-weight="800" fill="#fff" text-anchor="middle">M</text>
-      </svg>
-
-      <div class="project-body">
-        <span class="project-category">Technical Notes · Release Notes · Articles</span>
-        <span class="project-name">Notes &amp; writing</span>
-        <p class="project-desc">Swift, iOS, macOS, and backend engineering — written down so I don't re-solve the same problem twice.</p>
-        <span class="project-link">
-          molayab.com/blog
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
-          </svg>
-        </span>
+    {% for post in site.posts limit:4 %}
+    {% assign words = post.content | strip_html | number_of_words %}
+    {% assign minutes = words | divided_by: 200 | at_least: 1 %}
+    {% if forloop.first %}
+    <a class="post-feature" href="{{ post.url | relative_url }}">
+      {% if post.image %}<img class="post-cover-img" src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: '' | escape }}" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+      <div class="post-feature-body">
+        <p class="post-meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time> · {{ minutes }} min read</p>
+        <h3 class="post-feature-title">{{ post.title | escape }}</h3>
+        <p class="post-feature-desc">{{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 200 | escape }}</p>
+        {% if post.tags and post.tags.size > 0 %}<div class="post-tags">{% for tag in post.tags limit:4 %}<span class="tag">{{ tag }}</span>{% endfor %}</div>{% endif %}
       </div>
+    </a>
+    {% if site.posts.size > 1 %}<ul class="post-rows" role="list">{% endif %}
+    {% else %}
+      <li>
+        <a class="post-row{% unless post.image %} is-coverless{% endunless %}" href="{{ post.url | relative_url }}">
+          {% if post.image %}<img class="post-cover-img" src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: '' | escape }}" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
+          <div class="post-row-body">
+            <p class="post-meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time> · {{ minutes }} min read</p>
+            <h3 class="post-row-title">{{ post.title | escape }}</h3>
+            {% if post.tags and post.tags.size > 0 %}<div class="post-tags">{% for tag in post.tags limit:3 %}<span class="tag">{{ tag }}</span>{% endfor %}</div>{% endif %}
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    {% if forloop.last and site.posts.size > 1 %}</ul>{% endif %}
+    {% endfor %}
+
+    <a class="post-all" href="/blog/">
+      All posts
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
     </a>
   </section>
 
