@@ -4,7 +4,7 @@ title: "Streaming a Live Terminal to a Phone"
 description: "A design for watching and driving a desktop PTY from a phone: decoupling the process from the view, snapshot-plus-sequenced-bytes streaming, QUIC transport, and pairing that doesn't turn your shell into an open door. Not built yet — this is the plan and its open questions."
 date: 2026-11-10 12:00:00 -0000
 tags: [grove, security, developer-tools]
-image: /assets/images/posts/streaming-a-terminal-to-a-phone-option-1.png
+image: /assets/images/posts/streaming-a-terminal-to-a-phone.png
 ---
 
 I want to check on a coding agent from my phone: see what it's doing, answer its question, approve a step, put the phone away. We're building this for Grove's iOS companion, but the problem is general — stream a live terminal from a desktop to a phone, securely, without the slow end dragging down the fast one. None of this is built yet. This is the design, with the parts I haven't verified marked as open.
