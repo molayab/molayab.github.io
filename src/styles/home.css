@@ -10,7 +10,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, #52B788 0%, #1B4332 100%);
+  background: linear-gradient(180deg, var(--brand-grad-start) 0%, var(--brand-grad-end) 100%);
   color: #fff;
   display: flex;
   align-items: center;
