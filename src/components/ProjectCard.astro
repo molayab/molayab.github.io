@@ -2,15 +2,14 @@
 // App card: icon slot + category, name, description and external link text.
 interface Props {
   href: string;
-  label: string;
   category: string;
   name: string;
   description: string;
   linkText: string;
 }
-const { href, label, category, name, description, linkText } = Astro.props;
+const { href, category, name, description, linkText } = Astro.props;
 ---
-<a class="project-card" href={href} aria-label={label}>
+<a class="project-card" href={href}>
   <slot name="icon" />
 
   <div class="project-body">

@@ -6,7 +6,7 @@ interface Props {
 }
 const { repo } = Astro.props;
 ---
-<a class="repo-card" href={`https://github.com/molayab/${repo.name}`} aria-label={`${repo.name} on GitHub`}>
+<a class="repo-card" href={`https://github.com/molayab/${repo.name}`}>
   <span class="repo-name">{repo.name}</span>
   <p class="repo-desc">{repo.description}</p>
   <span class="repo-meta">
