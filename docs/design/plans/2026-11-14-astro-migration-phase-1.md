@@ -1,6 +1,7 @@
 ---
 id: 2026-11-14-astro-migration-phase-1
-status: implemented
+status: published
+pr: https://github.com/molayab/molayab.github.io/pull/46
 owner: webpage-designer
 approved_by: human
 approved_on: 2026-11-14
