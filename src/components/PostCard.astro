@@ -1,0 +1,19 @@
+---
+import Tag from './Tag.astro';
+import { postUrl, cardDescription, formatDate, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+---
+<a class="post-card" href={postUrl(post)} data-tags={post.data.tags.join(' ')}>
+  <p class="post-card-date">{formatDate(post.data.date)}</p>
+  <h2 class="post-card-title">{post.data.title}</h2>
+  <p class="post-card-desc">{cardDescription(post, 160)}</p>
+  {post.data.tags.length > 0 && (
+    <div class="post-card-tags">
+      {post.data.tags.map((tag) => <Tag label={tag} />)}
+    </div>
+  )}
+</a>

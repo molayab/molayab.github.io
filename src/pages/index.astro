@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import RepoCard from '../components/RepoCard.astro';
+import PostFeature from '../components/PostFeature.astro';
+import PostRow from '../components/PostRow.astro';
+import { JSON_LD, REPOS } from '../data/home';
+import { getPosts } from '../lib/posts';
+
+const title = 'Mateo Olaya Bernal — Software Engineer & Swift Developer';
+const description =
+  "I'm a software engineer building native Swift apps for macOS and iOS, backend services with Vapor, and open-source developer tools.";
+
+// Latest posts: newest featured, the next three as compact rows.
+const [featured, ...rest] = (await getPosts()).slice(0, 4);
+---
+<Base title={title} description={description} path="/" jsonLd={JSON_LD} siteMark={false} footer="home">
+
+  <!-- Hero -->
+  <Hero />
+
+  <hr class="rule">
+
+  <!-- About -->
+  <section aria-label="About">
+    <h2 class="eyebrow">About</h2>
+    <p class="about-text">I work across the stack — native Swift apps for macOS and iOS, backend services in Vapor, and the occasional systems-level detour into C and C++. I like building focused tools: things that do one job well and feel considered in the details.</p>
+    <p class="about-text">Most of what I ship ends up open source or as an indie app — you'll find both below.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Apps -->
+  <section aria-label="Apps">
+    <h2 class="eyebrow">Apps</h2>
+
+    <ProjectCard
+      href="https://grove.molayab.com"
+      label="Grove — git workspace manager for macOS"
+      category="macOS · Git · Developer Tool"
+      name="Grove"
+      description="A native workspace manager for developers using AI coding agents. Agent, shell, file tree, and diff — all following the same git checkout."
+      linkText="grove.molayab.com"
+    >
+      <svg slot="icon" class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Grove app icon">
+        <rect width="1024" height="1024" rx="225" ry="225" fill="#000000"/>
+        <path d="M512 384 V544 M512 544 L304 688 M512 544 L720 688" fill="none" stroke="#CB2957" stroke-width="80" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="512" cy="272" r="96" fill="#CB2957"/>
+        <circle cx="272" cy="752" r="96" fill="#CB2957"/>
+        <circle cx="752" cy="752" r="96" fill="#CB2957"/>
+      </svg>
+    </ProjectCard>
+
+    <div class="project-placeholder" aria-label="More apps coming">// more coming soon</div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Projects -->
+  <section aria-label="Open source projects">
+    <h2 class="eyebrow">Projects</h2>
+
+    <div class="repo-grid">
+      {REPOS.map((repo) => <RepoCard repo={repo} />)}
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- Blog: latest posts, newest featured. Generated at build time from the posts collection. -->
+  <section aria-labelledby="blog-heading">
+    <h2 class="eyebrow" id="blog-heading">Blog</h2>
+
+    {featured && <PostFeature post={featured} />}
+    {rest.length > 0 && (
+      <ul class="post-rows" role="list">
+        {rest.map((post) => <PostRow post={post} />)}
+      </ul>
+    )}
+
+    <a class="post-all" href="/blog/">
+      All posts
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </section>
+
+</Base>

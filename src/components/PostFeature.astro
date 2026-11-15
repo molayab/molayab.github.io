@@ -1,0 +1,19 @@
+---
+import Tag from './Tag.astro';
+import { postUrl, cardDescription, readingMinutes, formatDate, xmlSchema, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { image, image_alt, title, date, tags } = post.data;
+---
+<a class="post-feature" href={postUrl(post)}>
+  {image && <img class="post-cover-img" src={image} alt={image_alt ?? ''} width="1200" height="630" loading="lazy" decoding="async">}
+  <div class="post-feature-body">
+    <p class="post-meta"><time datetime={xmlSchema(date)}>{formatDate(date)}</time> · {readingMinutes(post)} min read</p>
+    <h3 class="post-feature-title">{title}</h3>
+    <p class="post-feature-desc">{cardDescription(post, 200)}</p>
+    {tags.length > 0 && <div class="post-tags">{tags.slice(0, 4).map((tag) => <Tag label={tag} />)}</div>}
+  </div>
+</a>

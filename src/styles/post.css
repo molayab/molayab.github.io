@@ -239,11 +239,17 @@
   font-size: 0.875em;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  /* Under Jekyll, inline code carried the .highlighter-rouge class and so picked
+     up that rule's 12px radius and overflow; kept as is so nothing changes. */
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
   padding: 0.15em 0.45em;
 }
 
-/* Code blocks (Rouge / kramdown fenced code) */
+/* Code blocks. Highlighted by Shiki (src/plugins/code-theme.mjs), wrapped in
+   the same div.highlighter-rouge > div.highlight > pre.highlight structure the
+   Rouge-era markup had, so the block chrome renders exactly as before. Token
+   colors come from the --code-* variables above through the Shiki theme. */
 .post-body .highlighter-rouge,
 .post-body pre.highlight {
   background: var(--surface-2);
@@ -270,56 +276,7 @@
   padding: 0;
 }
 
-/* Rouge token colors — tokenized via --code-* custom properties above */
-.post-body .highlight .c,
-.post-body .highlight .c1,
-.post-body .highlight .cm,
-.post-body .highlight .cp { color: var(--code-comment); font-style: italic; }
-
-.post-body .highlight .k,
-.post-body .highlight .kc,
-.post-body .highlight .kd,
-.post-body .highlight .kn,
-.post-body .highlight .kp,
-.post-body .highlight .kr,
-.post-body .highlight .kt,
-.post-body .highlight .ow { color: var(--code-keyword); }
-
-.post-body .highlight .s,
-.post-body .highlight .s1,
-.post-body .highlight .s2,
-.post-body .highlight .sb,
-.post-body .highlight .sc,
-.post-body .highlight .sd,
-.post-body .highlight .se,
-.post-body .highlight .sh,
-.post-body .highlight .si,
-.post-body .highlight .sx,
-.post-body .highlight .ss { color: var(--code-string); }
-
-.post-body .highlight .m,
-.post-body .highlight .mf,
-.post-body .highlight .mh,
-.post-body .highlight .mi,
-.post-body .highlight .mo,
-.post-body .highlight .il { color: var(--code-string); }
-
-.post-body .highlight .nf,
-.post-body .highlight .nc,
-.post-body .highlight .nn,
-.post-body .highlight .nb { color: var(--code-fn); }
-
-.post-body .highlight .n,
-.post-body .highlight .na,
-.post-body .highlight .nv,
-.post-body .highlight .nt { color: var(--text); }
-
-.post-body .highlight .o,
-.post-body .highlight .p { color: var(--text-2); }
-
-.post-body .highlight .err { color: var(--code-error); }
-
-/* Mermaid diagrams (rendered client-side; see _layouts/default.html) */
+/* Mermaid diagrams (rendered client-side; see src/scripts/mermaid.js) */
 .post-body .mermaid,
 .post-body pre code.language-mermaid {
   display: block;

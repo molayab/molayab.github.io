@@ -1,3 +1,13 @@
+---
+// Contact footer shared by the homepage and the blog. The only difference is
+// the link to the other section: the homepage links to the blog, blog pages
+// link to the RSS feed.
+interface Props {
+  variant?: 'home' | 'blog';
+}
+const { variant = 'blog' } = Astro.props;
+const year = new Date().getFullYear();
+---
 <hr class="rule">
 
 <footer class="footer" aria-label="Contact">
@@ -8,7 +18,7 @@
     GitHub
   </a>
   <span class="footer-sep" aria-hidden="true">·</span>
-  <a class="footer-link" href="https://x.com/molayab_" aria-label="X (Twitter)">
+  <a class="footer-link" href="https://x.com/molayab_" aria-label="@molayab_ on X">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
     </svg>
@@ -24,21 +34,33 @@
     Instagram
   </a>
   <span class="footer-sep" aria-hidden="true">·</span>
-  <a class="footer-link" href="{{ '/feed.xml' | relative_url }}" aria-label="RSS feed">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M4 11a9 9 0 0 1 9 9"/>
-      <path d="M4 4a16 16 0 0 1 16 16"/>
-      <circle cx="5" cy="19" r="1"/>
-    </svg>
-    RSS
-  </a>
+  {variant === 'home' ? (
+    <a class="footer-link" href="/blog/" aria-label="Blog">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Blog
+    </a>
+  ) : (
+    <a class="footer-link" href="/feed.xml" aria-label="RSS feed">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 11a9 9 0 0 1 9 9"/>
+        <path d="M4 4a16 16 0 0 1 16 16"/>
+        <circle cx="5" cy="19" r="1"/>
+      </svg>
+      RSS
+    </a>
+  )}
   <span class="footer-sep" aria-hidden="true">·</span>
-  <a class="footer-link" href="mailto:hello@molayab.com" aria-label="Email">
+  <a class="footer-link" href="mailto:hello@molayab.com" aria-label="Email hello@molayab.com">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
       <polyline points="22,6 12,13 2,6"/>
     </svg>
     hello@molayab.com
   </a>
-  <span class="footer-year" aria-hidden="true">© {{ site.time | date: "%Y" }}</span>
+  <span class="footer-year" aria-hidden="true">© {year}</span>
 </footer>

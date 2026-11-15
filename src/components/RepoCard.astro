@@ -1,0 +1,16 @@
+---
+import type { Repo } from '../data/home';
+
+interface Props {
+  repo: Repo;
+}
+const { repo } = Astro.props;
+---
+<a class="repo-card" href={`https://github.com/molayab/${repo.name}`} aria-label={`${repo.name} on GitHub`}>
+  <span class="repo-name">{repo.name}</span>
+  <p class="repo-desc">{repo.description}</p>
+  <span class="repo-meta">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+    {repo.stars}<span class="repo-sep">&nbsp;·&nbsp;</span><span class="lang-dot" style={`--lang-color:${repo.languageColor}`}></span>&nbsp;{repo.language}
+  </span>
+</a>

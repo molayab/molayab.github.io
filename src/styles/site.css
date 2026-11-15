@@ -1,68 +1,3 @@
-/* ── Tokens (mirrors index.html — keep both in sync) ───────── */
-:root {
-  --font:        system-ui, -apple-system, 'Helvetica Neue', sans-serif;
-  --mono:        ui-monospace, 'SF Mono', Menlo, monospace;
-  --radius:      20px;
-  --radius-sm:   12px;
-  --radius-pill: 980px;
-  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Light (default) */
-  --bg:            #F6F5F0;
-  --surface:       #FFFFFF;
-  --surface-2:     #EEECE5;
-  --border:        rgba(26, 58, 41, 0.10);
-  --accent:        #1A7A4A;
-  --glow:          #52B788;
-  --text:          #211F1A;
-  --text-2:        #6B6862;
-  --text-3:        #ABA79C;
-  --ambient:       transparent;
-  --shadow-hover:  0 10px 30px rgba(26, 122, 74, 0.14);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:           #000000;
-    --surface:      #1E1E1B;
-    --surface-2:    #242420;
-    --border:       rgba(160, 220, 190, 0.12);
-    --accent:       #52B788;
-    --glow:         #52B788;
-    --text:         #F5F3ED;
-    --text-2:       #8C887E;
-    --text-3:       #4A4740;
-    --ambient:      rgba(82, 183, 136, 0.16);
-    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.45);
-  }
-}
-:root[data-theme="dark"] {
-  --bg:           #000000;
-  --surface:      #1E1E1B;
-  --surface-2:    #242420;
-  --border:       rgba(160, 220, 190, 0.12);
-  --accent:       #52B788;
-  --glow:         #52B788;
-  --text:         #F5F3ED;
-  --text-2:       #8C887E;
-  --text-3:       #4A4740;
-  --ambient:      rgba(82, 183, 136, 0.16);
-  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-:root[data-theme="light"] {
-  --bg:           #F6F5F0;
-  --surface:      #FFFFFF;
-  --surface-2:    #EEECE5;
-  --border:       rgba(26, 58, 41, 0.10);
-  --accent:       #1A7A4A;
-  --glow:         #52B788;
-  --text:         #211F1A;
-  --text-2:       #6B6862;
-  --text-3:       #ABA79C;
-  --ambient:      transparent;
-  --shadow-hover: 0 10px 30px rgba(26, 122, 74, 0.14);
-}
-
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -131,29 +66,24 @@ body::before {
   padding: 0 24px;
 }
 
-/* ── Theme toggle / site mark ──────────────────────────────── */
+/* ── Theme toggle ───────────────────────────────────────────────
+   Base styles come from design-template-kit (src/theme-toggle.css). The site
+   pins it to the top-right corner and keeps its own size, radius and surface. */
 .theme-toggle {
   position: fixed;
   top: 20px;
   right: 20px;
   background: var(--surface);
-  border: 1px solid var(--border);
   border-radius: 10px;
   width: 36px;
   height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--text-2);
   transition: color 0.15s, background 0.2s;
   z-index: 10;
 }
-.theme-toggle:hover { color: var(--text); }
-.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .theme-toggle svg { transition: transform 0.3s var(--ease); }
 .theme-toggle:hover svg { transform: rotate(15deg) scale(1.08); }
 
+/* ── Site mark (blog pages) ─────────────────────────────────── */
 .site-mark {
   position: fixed;
   top: 20px;

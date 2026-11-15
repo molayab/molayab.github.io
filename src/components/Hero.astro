@@ -1,0 +1,14 @@
+---
+// Homepage hero: avatar over a monogram fallback, name, neutral title, tagline.
+// Keep the fallback layer: if the hotlinked GitHub avatar is blocked, the
+// monogram shows instead of a broken image.
+---
+<section class="hero">
+  <div class="hero-avatar-wrap">
+    <div class="hero-avatar-fallback" aria-hidden="true">M</div>
+    <img class="hero-avatar" src="https://github.com/molayab.png?size=168" alt="Mateo Olaya Bernal" width="84" height="84" loading="eager" onerror="this.style.display='none'">
+  </div>
+  <h1 class="hero-name">Mateo Olaya Bernal</h1>
+  <p class="hero-role">Software Engineer</p>
+  <p class="hero-bio">Native apps, backend systems, and developer tools.</p>
+</section>
