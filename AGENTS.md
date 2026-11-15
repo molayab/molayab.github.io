@@ -59,10 +59,14 @@ publisher). Keep this current when any of it changes.
   token (in `src/layouts/Base.astro`), the hotlinked GitHub avatar.
 - **Intentional public contacts:** the name Mateo Olaya Bernal, `hello@molayab.com`,
   `github.com/molayab`, `x.com/molayab_`, `instagram.com/molayab`.
-- **External content origins:** `github.com` (avatar, links); `cdn.jsdelivr.net` for
-  mermaid.js, loaded only on posts with diagrams.
+- **External content origins:** `github.com` (avatar, links). No CDN: mermaid is bundled from
+  npm (exact `11.x` in `package.json`) and lazy-loaded on posts with diagrams.
 - **Vendored / non-registry dependencies:** `design-template-kit`, installed from the pinned
-  GitHub tag tarball in `package.json` (currently v0.1.1; lockfile committed). Never `main`.
+  GitHub tag tarball in `package.json` (currently v0.2.0; lockfile committed). Never `main`.
+  Dependabot ignores it (a tag tarball, not a registry package); bump it by hand.
+- **CI hardening:** every `uses:` in `deploy.yml` is pinned to a full commit SHA with a version
+  comment, and checkout sets `persist-credentials: false`. `.github/dependabot.yml` updates
+  `github-actions` and `npm` weekly (grouped; mermaid majors and the kit are ignored).
 - **Attribution:** none, anywhere (see Hard rules).
 
 ## What this repo is
@@ -78,9 +82,10 @@ Layout of the repo:
   integration serves them in dev and copies them into `dist/` at the same URL.
 - `public/` — files served as-is: `CNAME` (do not remove: deleting it drops the custom domain),
   `robots.txt`, `favicon.svg` / `favicon-32.png` / `apple-touch-icon.png` / `icon-512.png` (the "M"
-  monogram, green gradient, matches the Grove app icon; regenerate all sizes together via a
+  monogram, teal-green gradient from `--brand-grad-*`; it follows the site palette and may differ
+  from the Grove app icon, which keeps its own green; regenerate all sizes together via a
   headless-browser screenshot of `favicon.svg`), and `og-image.png` (1200×630 social preview, regenerate
-  it if the hero title or tagline changes).
+  it if the hero title, tagline or palette changes).
 - `src/pages/` — `index.astro` (homepage), `blog/index.astro` (listing), `blog/[year]/[month]/[day]/[slug]/index.astro`
   (post), `404.astro` (emits `/404.html`, `noindex`), `feed.xml.ts` (Atom), `sitemap.xml.ts` (flat sitemap).
 - `src/layouts/` — `Base.astro` (head/SEO/analytics/theme toggle/footer for every page), `Post.astro` (article chrome).
@@ -105,9 +110,10 @@ Any commit pushed to `master` is deployed by the GitHub Actions workflow. Pull r
   deliberately NOT imported (their reset, footer and layout rules would change the layout).
 - The site's own brand lives in `src/styles/theme.css`: kit primitives plus explicit semantic values per theme (light by
   default, dark under `prefers-color-scheme: dark`, `data-theme="dark|light"` overrides both) and the site-only tokens
-  (`--surface`, `--surface-2`, `--glow`, `--ambient`, `--shadow-hover`). Change colors there only, then update
+  (`--surface`, `--surface-2`, `--glow`, `--ambient`, `--shadow-hover`, `--brand-grad-start/-end`). The palette is
+  teal-green (hue 170); brand gradients live in `theme.css` and components use `--brand-grad-*`. Change colors there only, then update
   `docs/design/design-system.md`.
-- Components consume semantic tokens; no hard-coded brand colors outside `theme.css` and the avatar/app-icon gradients.
+- Components consume semantic tokens; no hard-coded brand colors outside `theme.css` and the Grove app-icon SVG fills. `--text-3` is real text and passes AA; link cards take their accessible name from their content (no `aria-label`).
 - Upgrading the kit: change the tag in `package.json`, reinstall, commit the lockfile.
 - Reference: `docs/design/design-system.md` and the plans in `docs/design/plans/`.
 
@@ -122,7 +128,7 @@ Any commit pushed to `master` is deployed by the GitHub Actions workflow. Pull r
 - **Projects section**: GitHub repos are `RepoCard`s in `.repo-grid`, data in `src/data/home.ts`. Update the hardcoded
   stars and descriptions there when they change on GitHub.
 - **Analytics**: the Cloudflare Web Analytics beacon (keep the `data-cf-beacon` token) and Google Analytics
-  (`G-LNZDWNT4BV`) live in `Base.astro`. They and the conditional mermaid script are the only external scripts.
+  (`G-LNZDWNT4BV`) live in `Base.astro`. They are the only external scripts (mermaid is bundled, not external).
 - **Hero avatar**: hotlinked from `https://github.com/<username>.png`, layered over a `.hero-avatar-fallback`
   monogram via `onerror="this.style.display='none'"`. Never remove the fallback layer or hide the `<img>` by default, or a
   blocked image shows nothing or overflowing alt text.
@@ -158,8 +164,8 @@ Any commit pushed to `master` is deployed by the GitHub Actions workflow. Pull r
   Colors match the Rouge palette; token boundaries follow Shiki's grammars, so a few tokens (about 2 percent in the existing posts) are colored
   differently from Rouge.
 - **Diagrams**: fenced ```` ```mermaid ```` blocks are excluded from Shiki and emitted as `<pre><code class="language-mermaid">`.
-  `src/scripts/mermaid.js` (run only on posts) swaps them for `.mermaid` divs, loads mermaid.js from `cdn.jsdelivr.net` only
-  when a block exists, renders with the `dark` or `default` theme and re-renders on the `themechange` event. `post.css` styles
+  `src/scripts/mermaid.js` (run only on posts) swaps them for `.mermaid` divs, dynamically imports the bundled `mermaid` npm package
+  only when a block exists (no third-party origin), renders with the `dark` or `default` theme and re-renders on the `themechange` event. `post.css` styles
   the no-JS fallback.
 - **Feed and sitemap**: custom endpoints, because `@astrojs/rss` emits RSS (grove-website needs Atom) and `@astrojs/sitemap`
   emits `sitemap-index.xml` (robots.txt needs a flat `/sitemap.xml`). Do not hand-write either file.
@@ -201,7 +207,7 @@ Any commit pushed to `master` is deployed by the GitHub Actions workflow. Pull r
   e.g. `mac-mini-home-server.png` (Mac mini -> tunnel -> shield -> cloud), `ai-agent-dev-team.png`,
   `swift-ai-provider-kit.png`. Look at the existing images under `assets/images/posts/` first: they are the reference for the
   visual language below and the "one flow, 2-3 nodes" level of abstraction.
-- **Visual language**, shared with `og-image.png`/favicon: black background (`#050705`), a soft radial accent glow (`#52B788`)
+- **Visual language**, shared with `og-image.png`/favicon: black background (`#050705`), a soft radial accent glow (`#52B7A6` teal-green; covers made before 2026-11-14 keep the older `#52B788`)
   centered around 78%/42% of the frame, a faint dot-grid masked to the glow. Icons are flat line-art (white/light strokes
   ~3px, round caps/joins), no photographic or literal-brand imagery; the "destination" node sits inside the glow and can be
   accent-filled. Dotted accent-colored connector paths (`stroke-dasharray`) suggest a flow.
