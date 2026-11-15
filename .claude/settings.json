@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "molayab": {
+      "source": {
+        "source": "github",
+        "repo": "molayab/web-agentic-pipeline"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "web-agentic-pipeline@molayab": true
+  }
+}
