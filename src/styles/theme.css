@@ -1,0 +1,100 @@
+/* ── molayab.com brand theme ───────────────────────────────────
+   Loaded after design-template-kit's tokens.css. Source of truth for the
+   site's colors (see docs/design/design-system.md).
+
+   1. Primitives: the kit's theming API.
+   2. Semantic tokens set explicitly per theme. The kit derives text-2,
+      text-3 and border with color-mix(); the site's values are fixed, so they
+      are overridden here rather than approximated.
+   3. Site-only tokens the kit does not know (--surface, --surface-2, --glow,
+      --ambient, --shadow-hover, --ease).
+
+   Theme selection: light by default, dark under prefers-color-scheme: dark,
+   and data-theme="dark|light" (set by the toggle) overrides both. */
+
+:root {
+  /* Fonts and shape */
+  --font:        system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --mono:        ui-monospace, 'SF Mono', Menlo, monospace;
+  --radius:      20px;
+  --radius-sm:   12px;
+  --radius-pill: 980px;
+  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Brand */
+  --brand:          #1A7A4A;
+  --brand-hover:    #1A7A4A; /* no kit buttons in use; kept equal to --brand */
+  --brand-contrast: #FFFFFF;
+  --brand-on-dark:  #52B788;
+  --brand-on-light: #1A7A4A;
+
+  /* Neutral palettes */
+  --dark-bg:      #000000;
+  --dark-raised:  #1E1E1B;
+  --dark-section: #242420;
+  --dark-text:    #F5F3ED;
+  --light-bg:      #F6F5F0;
+  --light-raised:  #FFFFFF;
+  --light-section: #EEECE5;
+  --light-text:    #211F1A;
+}
+
+/* Light: the default, and the no-attribute case under an OS light preference
+   (the :not([data-theme]) form outranks the kit's own media-query block). */
+:root,
+:root:not([data-theme]),
+:root[data-theme="light"] {
+  color-scheme: normal;
+  --bg:            var(--light-bg);
+  --bg-section:    var(--surface-2);
+  --bg-raised:     var(--surface);
+  --text:          var(--light-text);
+  --text-2:        #6B6862;
+  --text-3:        #ABA79C;
+  --border:        rgba(26, 58, 41, 0.10);
+  --accent:        #1A7A4A;
+  --accent-text:   #1A7A4A;
+  --surface:       var(--light-raised);
+  --surface-2:     var(--light-section);
+  --glow:          #52B788;
+  --ambient:       transparent;
+  --shadow-hover:  0 10px 30px rgba(26, 122, 74, 0.14);
+}
+
+/* Dark: explicit toggle, or OS preference with no explicit choice. */
+:root[data-theme="dark"] {
+  color-scheme: normal;
+  --bg:            var(--dark-bg);
+  --bg-section:    var(--surface-2);
+  --bg-raised:     var(--surface);
+  --text:          var(--dark-text);
+  --text-2:        #8C887E;
+  --text-3:        #4A4740;
+  --border:        rgba(160, 220, 190, 0.12);
+  --accent:        #52B788;
+  --accent-text:   #52B788;
+  --surface:       var(--dark-raised);
+  --surface-2:     var(--dark-section);
+  --glow:          #52B788;
+  --ambient:       rgba(82, 183, 136, 0.16);
+  --shadow-hover:  0 10px 30px rgba(0, 0, 0, 0.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: normal;
+    --bg:            var(--dark-bg);
+    --bg-section:    var(--surface-2);
+    --bg-raised:     var(--surface);
+    --text:          var(--dark-text);
+    --text-2:        #8C887E;
+    --text-3:        #4A4740;
+    --border:        rgba(160, 220, 190, 0.12);
+    --accent:        #52B788;
+    --accent-text:   #52B788;
+    --surface:       var(--dark-raised);
+    --surface-2:     var(--dark-section);
+    --glow:          #52B788;
+    --ambient:       rgba(82, 183, 136, 0.16);
+    --shadow-hover:  0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+}

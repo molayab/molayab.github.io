@@ -1,0 +1,28 @@
+---
+// App card: icon slot + category, name, description and external link text.
+interface Props {
+  href: string;
+  label: string;
+  category: string;
+  name: string;
+  description: string;
+  linkText: string;
+}
+const { href, label, category, name, description, linkText } = Astro.props;
+---
+<a class="project-card" href={href} aria-label={label}>
+  <slot name="icon" />
+
+  <div class="project-body">
+    <span class="project-category">{category}</span>
+    <span class="project-name">{name}</span>
+    <p class="project-desc">{description}</p>
+    <span class="project-link">
+      {linkText}
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </span>
+  </div>
+</a>

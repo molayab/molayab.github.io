@@ -1,0 +1,20 @@
+---
+import Tag from './Tag.astro';
+import { postUrl, readingMinutes, formatDateShort, xmlSchema, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { image, image_alt, title, date, tags } = post.data;
+---
+<li>
+  <a class:list={['post-row', { 'is-coverless': !image }]} href={postUrl(post)}>
+    {image && <img class="post-cover-img" src={image} alt={image_alt ?? ''} width="1200" height="630" loading="lazy" decoding="async">}
+    <div class="post-row-body">
+      <p class="post-meta"><time datetime={xmlSchema(date)}>{formatDateShort(date)}</time> · {readingMinutes(post)} min read</p>
+      <h3 class="post-row-title">{title}</h3>
+      {tags.length > 0 && <div class="post-tags">{tags.slice(0, 3).map((tag) => <Tag label={tag} />)}</div>}
+    </div>
+  </a>
+</li>

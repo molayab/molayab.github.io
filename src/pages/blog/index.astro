@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import TagFilterBar from '../../components/TagFilterBar.astro';
+import { SITE, absoluteUrl } from '../../data/site';
+import { getPosts, postUrl, tagCounts, xmlSchema } from '../../lib/posts';
+
+const posts = await getPosts();
+const title = `Blog — ${SITE.title}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: title,
+  description: SITE.description,
+  url: absoluteUrl('/blog/'),
+  inLanguage: 'en',
+  author: { '@type': 'Person', name: SITE.author, url: `${SITE.url}/` },
+  blogPost: posts.slice(0, 20).map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: absoluteUrl(postUrl(p)),
+    datePublished: xmlSchema(p.data.date),
+  })),
+};
+---
+<Base title={title} ogTitle="Blog" description={SITE.description} path="/blog/" jsonLd={jsonLd}>
+  <section class="hero">
+    <p class="eyebrow">Blog</p>
+    <h1 class="hero-name">Notes &amp; writing</h1>
+    <p class="hero-bio">Technical notes, release notes, and articles on Swift, iOS, macOS, and backend engineering.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section aria-label="Posts">
+    {posts.length > 0 ? (
+      <>
+        <TagFilterBar tags={tagCounts(posts)} />
+        <div class="post-list">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+        <div class="post-empty post-empty-filtered" aria-label="No posts match this tag">// no posts with this tag</div>
+      </>
+    ) : (
+      <div class="post-empty" aria-label="No posts yet">// nothing published yet</div>
+    )}
+  </section>
+</Base>

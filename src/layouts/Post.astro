@@ -1,0 +1,117 @@
+---
+// Article chrome around a rendered post: back link, date, title, reading time,
+// tags, cover, body slot and the share row.
+import Base from './Base.astro';
+import Tag from '../components/Tag.astro';
+import { SITE, absoluteUrl } from '../data/site';
+import { postUrl, postDescription, cardDescription, urlEncode, readingMinutes, wordCount, formatDate, xmlSchema, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { title, tags, image, date } = post.data;
+const path = postUrl(post);
+const url = absoluteUrl(path);
+const description = postDescription(post, 200);
+const published = xmlSchema(date);
+const modified = xmlSchema(post.data.last_modified_at ?? date);
+const imageUrl = absoluteUrl(image ?? SITE.defaultImage);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      headline: title,
+      description,
+      image: imageUrl,
+      datePublished: published,
+      dateModified: modified,
+      author: { '@type': 'Person', name: SITE.author, url: `${SITE.url}/` },
+      publisher: { '@type': 'Person', name: SITE.author, url: `${SITE.url}/` },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      url,
+      inLanguage: 'en',
+      keywords: tags,
+      wordCount: wordCount(post),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: absoluteUrl('/blog/') },
+        { '@type': 'ListItem', position: 3, name: title, item: url },
+      ],
+    },
+  ],
+};
+const shareText = cardDescription(post, 160);
+---
+<Base
+  title={`${title} — ${SITE.title}`}
+  ogTitle={title}
+  description={description}
+  path={path}
+  image={image}
+  type="article"
+  article={{ published, modified, tags }}
+  jsonLd={jsonLd}
+>
+<article class="post">
+  <a class="post-back" href="/blog/">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+    Blog
+  </a>
+
+  <p class="eyebrow"><time datetime={published}>{formatDate(date)}</time></p>
+  <h1 class="post-title">{title}</h1>
+  {post.data.description && <p class="post-subtitle">{post.data.description}</p>}
+
+  <div class="post-meta-row">
+    <span>{readingMinutes(post)} min read</span>
+    {tags.length > 0 && (
+      <>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        {tags.map((tag) => <Tag label={tag} />)}
+      </>
+    )}
+  </div>
+
+  {image && (
+    <div class="post-cover">
+      <img src={image} alt={post.data.image_alt ?? ''} width="1200" height="630" loading="eager" fetchpriority="high">
+    </div>
+  )}
+
+  <div class="post-body">
+    <slot />
+  </div>
+
+  <div class="post-share">
+    <p class="post-share-label">Share</p>
+    <div class="post-share-actions">
+      <button type="button" class="share-icon-btn" id="shareCopyBtn" data-url={url} aria-label="Copy link" title="Copy link">
+        <svg class="icon-default" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <svg class="icon-success" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+      <button type="button" class="share-icon-btn" id="shareNativeBtn" style="display:none" aria-label="Share" title="Share" data-title={title} data-text={shareText} data-url={url}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+      <a class="share-icon-btn" href={`https://twitter.com/intent/tweet?text=${urlEncode(title)}&url=${urlEncode(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <span class="sr-only" id="shareStatus" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</article>
+<script>
+  import { initShare } from '../scripts/share.js';
+  import { initMermaid } from '../scripts/mermaid.js';
+  initShare();
+  initMermaid();
+</script>
+</Base>

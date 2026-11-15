@@ -1,0 +1,19 @@
+---
+interface Props {
+  tags: [string, number][];
+}
+const { tags } = Astro.props;
+---
+{tags.length > 0 && (
+  <div class="tag-filter-bar" role="group" aria-label="Filter posts by tag">
+    <button type="button" class="tag-filter is-active" data-tag="" aria-pressed="true">All</button>
+    {tags.map(([tag, count]) => (
+      <button type="button" class="tag-filter" data-tag={tag} aria-pressed="false">{tag}<span class="tag-filter-count">{count}</span></button>
+    ))}
+  </div>
+)}
+
+<script>
+  import { initTagFilter } from '../scripts/tag-filter.js';
+  initTagFilter();
+</script>
