@@ -232,6 +232,11 @@
   color: var(--text-2);
   font-weight: 600;
 }
+/* First-column row headers (rehype-a11y) render like the plain td they were. */
+.post-body th[scope="row"] {
+  color: inherit;
+  font-weight: inherit;
+}
 
 /* Inline code */
 .post-body :not(pre) > code {
@@ -239,9 +244,7 @@
   font-size: 0.875em;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  /* Under Jekyll, inline code carried the .highlighter-rouge class and so picked
-     up that rule's 12px radius and overflow; kept as is so nothing changes. */
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   overflow-x: auto;
   padding: 0.15em 0.45em;
 }
@@ -250,11 +253,19 @@
    the same div.highlighter-rouge > div.highlight > pre.highlight structure the
    Rouge-era markup had, so the block chrome renders exactly as before. Token
    colors come from the --code-* variables above through the Shiki theme. */
-.post-body .highlighter-rouge,
-.post-body pre.highlight {
+.post-body .highlighter-rouge {
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
+  overflow-x: auto;
+}
+/* One box: the outer wrapper draws it. The inner pre keeps a transparent 1px
+   border so the code text stays where it was, but draws no box of its own
+   (!important beats Shiki's inline background). */
+.post-body pre.highlight {
+  background: transparent !important;
+  border: 1px solid transparent;
+  border-radius: 0;
   overflow-x: auto;
 }
 .post-body .highlighter-rouge .highlight,

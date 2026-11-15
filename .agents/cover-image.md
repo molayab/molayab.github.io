@@ -19,10 +19,10 @@ Produce **3 genuinely distinct concepts**, not 3 minor variations on one layout 
 Shared with `og-image.png`, the favicon, and every other post cover, so they all read as one family:
 
 - Background: `#050705` (near-black).
-- Radial accent glow: `#52B788`, centered around 78%/42% of the 1200×630 frame, fading to transparent.
+- Radial accent glow: `#52B7A6` (teal-green; covers made before 2026-11-14 keep the older `#52B788`, do not redo them), centered around 78%/42% of the 1200×630 frame, fading to transparent.
 - A faint dot-grid, masked to the glow area only.
 - Icons: flat line-art, white/light (`#F4F6F5`) strokes, ~3px, round caps and joins. No fills except small accent highlights.
-- The "destination" node of the flow sits inside the glow and can be accent-filled (`#52B788`) to draw the eye.
+- The "destination" node of the flow sits inside the glow and can be accent-filled (`#52B7A6`) to draw the eye.
 - Connector paths between nodes: dotted/dashed, accent-colored (`stroke-dasharray`), so the image reads as a flow rather than a static illustration.
 
 ## Building and rendering

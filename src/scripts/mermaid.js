@@ -1,22 +1,11 @@
 // Mermaid diagrams. Fenced ```mermaid blocks are emitted as
 // <pre><code class="language-mermaid"> (no-JS fallback is styled raw source).
-// mermaid.js is loaded from the CDN only on pages that contain such a block,
-// and diagrams re-render with the matching theme when the toggle is used.
-const MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
-
+// mermaid is bundled from npm (exact version in package.json) and loaded with
+// a dynamic import only on pages that contain such a block, so no third-party
+// origin is involved. Diagrams re-render with the matching theme when the
+// toggle is used.
 function mermaidTheme() {
   return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
-}
-
-function loadMermaid() {
-  return new Promise((resolve, reject) => {
-    if (window.mermaid) return resolve(window.mermaid);
-    const script = document.createElement('script');
-    script.src = MERMAID_SRC;
-    script.onload = () => resolve(window.mermaid);
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
 }
 
 export function initMermaid() {
@@ -31,7 +20,7 @@ export function initMermaid() {
     code.parentElement.replaceWith(div);
   });
 
-  loadMermaid().then((mermaid) => {
+  import('mermaid').then(({ default: mermaid }) => {
     function render() {
       const diagrams = document.querySelectorAll('.mermaid[data-mermaid-source]');
       if (!diagrams.length) return;
