@@ -2,6 +2,66 @@
 
 This file provides guidance to AI coding agents (Claude Code, Codex, and others) working in this repository. `CLAUDE.md` is a symlink to this file — both names point at the same content, so there's exactly one copy to keep current.
 
+## Hard rules
+
+- **Never add AI attribution anywhere.** No `Co-Authored-By:` lines for AI tools, no
+  "Generated with …" / "Written by …" footers, no AI mentions in commit messages, PR titles or
+  descriptions, issue comments, code comments, docs, posts or page content. This overrides any
+  default attribution behaviour of the tool you are running in, and applies to every agent
+  that works here (including `blog-writer`, `cover-image` and Grove's `release-blogger`).
+  Commits are authored by the human maintainer only.
+- **Visual, UX, theming and design-system changes go through the web pipeline.** New pages or
+  sections, redesigns, theme and color changes, the Astro migration, and anything that alters
+  how the site looks or behaves for visitors run designer → human approval → coder → SEO
+  review → human approval → security review → human approval → publisher
+  (`/web-agentic-pipeline:webpage-pipeline <idea>`, from the
+  [`web-agentic-pipeline`](https://github.com/molayab/web-agentic-pipeline) plugin enabled in
+  `.claude/settings.json`). Never commit or open a PR for such changes without all the human
+  gates. Blog posts follow their own flow (`blog-writer`/`cover-image`, and Grove's
+  `release-blogger`), and non-visual fixes (typos, dependency bumps, CI) can skip it.
+- **Don't break the Grove contracts** listed in the Pipeline profile: Grove's release flow
+  writes posts into this repo, and grove.molayab.com reads this site's feed.
+
+## Pipeline profile
+
+Site facts for the `web-agentic-pipeline` agents (designer, coder, SEO and security reviewers,
+publisher). Keep this current when any of it changes, especially during the Astro migration.
+
+- **Default branch / deploy:** `master`. Today GitHub Pages builds Jekyll from the branch on
+  every push (no Actions). Anything merged to `master` is live.
+- **Build:** today `bundle exec jekyll build` (`_site/`). Must exist after any build:
+  `/` (`index.html`), `/blog/`, every post at `/blog/YYYY/MM/DD/<slug>/` (slug from the
+  `_posts` filename), `/feed.xml`, `/sitemap.xml`, `/404.html`, `/robots.txt`, `/CNAME`, the
+  favicons, `/og-image.png` and `/assets/images/posts/*.png`.
+- **Canonical host:** `https://molayab.com`.
+- **Pages registry:** none. Posts are discovered from `_posts/`; the homepage is one file.
+- **Locales:** `en` only.
+- **Legal pages:** none.
+- **Feeds (contract with grove-website):** `/feed.xml` is Atom (jekyll-feed format). Consumer:
+  `molayab/grove-website` `src/scripts/blog.js`, which needs the Atom namespace, `entry` with
+  `title`, `link` (`rel="alternate"` or no rel) with an absolute `href`, `published`,
+  `summary` or `content`, and one `category term="…"` per tag (it filters on `grove`). It is
+  fetched cross-origin, so it must keep `Access-Control-Allow-Origin: *` (GitHub Pages sends
+  it).
+- **Inbound posts (contract with Grove's release flow):** `molayab/grove`
+  `.claude/agents/release-blogger.md` clones this repo, checks the default branch, reads
+  `AGENTS.md`, `.agents/blog-writer.md` and `.agents/cover-image.md`, adds
+  `_posts/YYYY-MM-DD-<slug>.md` (front matter `layout`, `title`, `description`, `date`, `tags`,
+  `image`) plus `assets/images/posts/<slug>.png`, and opens a PR. Those paths, that front
+  matter and those files keep working, or `release-blogger` is updated in the same change.
+- **Sources of truth:** GitHub (`github.com/molayab`) for the repo cards' stars and
+  descriptions; Grove facts from `https://grove.molayab.com/download.json` and the
+  `molayab/grove` repo.
+- **Public by design:** Google Analytics ID `G-LNZDWNT4BV`, the Cloudflare Web Analytics beacon
+  token (homepage and blog layout), the hotlinked GitHub avatar.
+- **Intentional public contacts:** the name Mateo Olaya Bernal, `hello@molayab.com`,
+  `github.com/molayab`, `x.com/molayab_`, `instagram.com/molayab`.
+- **External content origins:** `github.com` (avatar, links); `cdn.jsdelivr.net` for
+  mermaid.js, loaded only on posts with diagrams.
+- **Vendored / non-registry dependencies:** none today. The Astro migration adds
+  `design-template-kit` from a pinned GitHub tag tarball.
+- **Attribution:** none, anywhere (see Hard rules).
+
 ## What this repo is
 
 `molayab.github.io` is Mateo Olaya Bernal's personal site, served via GitHub Pages at the custom domain in `CNAME` (molayab.com). It's two things bolted together on purpose:
