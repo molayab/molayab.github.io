@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # SHA-pinned `uses:` lines: Dependabot bumps the SHA and the trailing
+  # version comment together.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    labels: [dependencies]
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Stay on mermaid 11.x; moving to 12 needs a manual visual check.
+      - dependency-name: mermaid
+        update-types: ['version-update:semver-major']
+      # GitHub tag tarball, bumped by hand through the kit's release sequence.
+      - dependency-name: design-template-kit
