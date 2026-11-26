@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.9",
-    "astro": "^7.4.12",
+    "astro": "^7.4.13",
     "design-template-kit": "https://github.com/molayab/design-template-kit/archive/refs/tags/v0.2.0.tar.gz",
     "mermaid": "11.17.2"
   }
